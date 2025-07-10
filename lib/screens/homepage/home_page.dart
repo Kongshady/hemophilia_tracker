@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -29,16 +30,12 @@ class _HomePageState extends State<HomePage> {
                 children: [
                   SizedBox(
                     width: double.infinity,
-                    child: FilledButton(
-                      style: FilledButton.styleFrom(
-                        backgroundColor: Colors.redAccent,
-                        padding: EdgeInsets.symmetric(vertical: 16),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                      ),
-                      onPressed: () {},
-                      child: Text('Start Screening'),
+                    child: CustomStartingButton(
+                      btnTitle: 'Start Screening',
+                      bgColor: Colors.green,
+                      onTap: () {
+                        // TODO: Add screening logic here
+                      },
                     ),
                   ),
 
@@ -50,56 +47,61 @@ class _HomePageState extends State<HomePage> {
                   Row(
                     children: [
                       Expanded(
-                        child: FilledButton(
-                          style: FilledButton.styleFrom(
-                            backgroundColor: Colors.redAccent,
-                            padding: EdgeInsets.symmetric(vertical: 16),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                          ),
-                          onPressed: () {
+                        child: CustomStartingButton(
+                          btnTitle: 'Login',
+                          bgColor: Colors.redAccent,
+                          onTap: () {
                             Navigator.pushNamed(context, '/login');
                           },
-                          child: Text('Sign In'),
                         ),
                       ),
 
-                      SizedBox(width: 20),
+                      SizedBox(width: 15),
 
                       Expanded(
-                        child: FilledButton(
-                          style: FilledButton.styleFrom(
-                            backgroundColor: Colors.redAccent,
-                            padding: EdgeInsets.symmetric(vertical: 16),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                          ),
-                          onPressed: () {
-                            Navigator.pushNamed(context, '/register');
-                          },
-                          child: Text('Register'),
-                        ),
+                        child: CustomStartingButton(btnTitle: 'Create Account', bgColor: Colors.redAccent, onTap: () {
+                          Navigator.pushNamed(context, '/register');
+                        },)
                       ),
                     ],
                   ),
 
                   // Continue As Guest Button
-                  SizedBox(height: 20),
+                  SizedBox(height: 15),
                   SizedBox(
                     width: double.infinity,
-                    child: FilledButton(
+                    child: OutlinedButton(
                       style: FilledButton.styleFrom(
-                        backgroundColor: Colors.redAccent,
+                        backgroundColor: Colors.transparent,
                         padding: EdgeInsets.symmetric(vertical: 16),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),
                         ),
                       ),
                       onPressed: () {},
-                      child: Text('Continue As Guest'),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Sign in with Google',
+                            style: TextStyle(color: Colors.black),
+                          ),
+                          SizedBox(width: 5),
+                          Icon(
+                            FontAwesomeIcons.google,
+                            color: Colors.redAccent,
+                          ),
+                        ],
+                      ),
                     ),
+                  ),
+
+                  SizedBox(height: 15),
+                  SizedBox(
+                    width: double.infinity,
+                    child: CustomStartingButton(btnTitle: 'Continue As Guest', bgColor: const Color.fromARGB(255, 41, 41, 41), onTap: () {
+                      // navigator
+                    },)
                   ),
                 ],
               ),
@@ -107,6 +109,32 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
       ),
+    );
+  }
+}
+
+class CustomStartingButton extends StatelessWidget {
+  final String btnTitle;
+  final Color bgColor;
+  final VoidCallback onTap;
+
+  const CustomStartingButton({
+    super.key,
+    required this.btnTitle,
+    required this.bgColor,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return FilledButton(
+      style: FilledButton.styleFrom(
+        backgroundColor: bgColor,
+        padding: EdgeInsets.symmetric(vertical: 16),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+      ),
+      onPressed: onTap,
+      child: Text(btnTitle),
     );
   }
 }

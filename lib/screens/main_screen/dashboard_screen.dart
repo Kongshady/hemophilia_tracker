@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:hemophilia_manager/widgets/custom_speed_dial.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({super.key});
@@ -15,7 +14,10 @@ class _DashboardState extends State<Dashboard> {
     return Scaffold(
       // backgroundColor: Colors.grey,
       appBar: AppBar(
-        title: const Text('HemoTrack PH', style: TextStyle(fontWeight: FontWeight.bold),),
+        title: const Text(
+          'HemoTrack PH',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
         centerTitle: true,
         actions: [
           IconButton(
@@ -32,72 +34,154 @@ class _DashboardState extends State<Dashboard> {
           ),
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 25.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(height: 20,),
-            // Greeting for the user
-            Column(
-              children: [
-                Row(
-                  spacing: 10,
-                  children: [
-                    Icon(FontAwesomeIcons.droplet, size: 35, color: Colors.red,),
-                    Text('Good Morning, UserName!', style: TextStyle(fontWeight: FontWeight.w500, fontSize: 18),),
-                  ],
-                ),
-
-            SizedBox(height: 30,),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text('How do you feel today?', style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),),
-                SizedBox(height: 10,),
-                TextField(
-                  decoration: InputDecoration(
-                    hintText: 'Enter what you feel today',
-                    border: OutlineInputBorder(),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 25.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(height: 20),
+              // Greeting for the user
+              Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    spacing: 10,
+                    children: [
+                      Text('Hello, Username!', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),),
+                      Icon(FontAwesomeIcons.handSparkles, color: Colors.blueAccent, size: 35,)
+                    ],
                   ),
-                )
-              ],
-            ),
-
-              ],
-            ),
+                  SizedBox(height: 20,),
         
-            // How do you feel today?
-
-            // Todays Reminders
-            SizedBox(height: 30,),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text('Today\'s Reminders', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
-                TextButton(onPressed: () {
-
-                }, child: const Text('View All'))
-              ],
-            ),
+                  // Dashboard title
+                  Row(
+                    spacing: 10,
+                    children: [
+                      Icon(Icons.dashboard, size: 30, color: Colors.redAccent,),
+                      Text(
+                        'Dashboard',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 32,
+                        ),
+                      ),
+                    ],
+                  ),
         
-            // Recent Activities
-            SizedBox(height: 30,),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text('Recent Activities', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
-                TextButton(onPressed: () {
+                  SizedBox(height: 10,),
+        
+                  // Todays Reminder
+                  Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadiusGeometry.circular(15)
+                    ),
+                    color: const Color.fromARGB(110, 64, 195, 255),
+                    child: Padding(
+                      padding: const EdgeInsets.all(15.0),
+                      child: Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text('Today\'s Reminder', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),),
+                              Icon(FontAwesomeIcons.bellConcierge)
+                            ],
+                          ),
+                          SizedBox(height: 10,),
+                          SizedBox(
+                            height: 300,
+                            child: ListView(
+                              children: [
+                                // change to ListView Builder
+                                ListTile(
+                                  leading: Icon(Icons.construction),
+                                  title: Text('Sample Only', style: TextStyle(fontWeight: FontWeight.bold),),
+                                  subtitle: Text('This is a subtitle'),
+                                  tileColor: Colors.grey,
+                                ),
+                                ListTile(
+                                  leading: Icon(Icons.construction),
+                                  title: Text('Sample Only', style: TextStyle(fontWeight: FontWeight.bold),),
+                                  subtitle: Text('This is a subtitle'),
+                                ),
+                                ListTile(
+                                  leading: Icon(Icons.construction),
+                                  title: Text('Sample Only', style: TextStyle(fontWeight: FontWeight.bold),),
+                                  subtitle: Text('This is a subtitle'),
+                                ),
+                                ListTile(
+                                  leading: Icon(Icons.construction),
+                                  title: Text('Sample Only', style: TextStyle(fontWeight: FontWeight.bold),),
+                                  subtitle: Text('This is a subtitle'),
+                                ),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
 
-                }, child: const Text('View All'))
-              ],
-            ),
-
-          ],
+                  SizedBox(height: 20,),
+        
+                  // Recent Activitiy
+                  Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadiusGeometry.circular(15)
+                    ),
+                    color: Colors.redAccent,
+                    child: Padding(
+                      padding: const EdgeInsets.all(15.0),
+                      child: Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text('Recent Activity', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),),
+                              Icon(Icons.pie_chart)
+                            ],
+                          ),
+                          SizedBox(height: 10,),
+                          SizedBox(
+                            height: 300,
+                            child: ListView(
+                              children: [
+                                // change to ListView Builder
+                                ListTile(
+                                  leading: Icon(Icons.construction),
+                                  title: Text('Sample Only', style: TextStyle(fontWeight: FontWeight.bold),),
+                                  subtitle: Text('This is a subtitle'),
+                                  tileColor: Colors.grey,
+                                ),
+                                ListTile(
+                                  leading: Icon(Icons.construction),
+                                  title: Text('Sample Only', style: TextStyle(fontWeight: FontWeight.bold),),
+                                  subtitle: Text('This is a subtitle'),
+                                ),
+                                ListTile(
+                                  leading: Icon(Icons.construction),
+                                  title: Text('Sample Only', style: TextStyle(fontWeight: FontWeight.bold),),
+                                  subtitle: Text('This is a subtitle'),
+                                ),
+                                ListTile(
+                                  leading: Icon(Icons.construction),
+                                  title: Text('Sample Only', style: TextStyle(fontWeight: FontWeight.bold),),
+                                  subtitle: Text('This is a subtitle'),
+                                ),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ],
+          ),
         ),
       ),
-      floatingActionButton: CustomSpeedDial(),
-      // Custom Speed Dial Widget from widgets/custom_speed_dial.dart
     );
   }
 }

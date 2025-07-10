@@ -69,7 +69,7 @@ class _MainScreenDisplayState extends State<MainScreenDisplay> {
                           physics: NeverScrollableScrollPhysics(),
                           children: [
                             _ActionTile(
-                              label: 'Log Bleeding',
+                              label: 'Log New Bleed',
                               icon: FontAwesomeIcons.droplet,
                               bgColor: Colors.red,
                               onTap: () {
@@ -81,7 +81,7 @@ class _MainScreenDisplayState extends State<MainScreenDisplay> {
                               icon: FontAwesomeIcons.pills,
                               bgColor: Colors.blue,
                               onTap: () {
-                                Navigator.pushNamed(context, '/dose_calculator');
+                                Navigator.pushNamed(context, '/schedule_medication');
                               },
                             ),
                             _ActionTile(

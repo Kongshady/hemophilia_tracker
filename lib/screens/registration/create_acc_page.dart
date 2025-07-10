@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hemophilia_manager/routes/routes.dart';
 import 'package:hemophilia_manager/widgets/custom_textfield.dart';
 
 class CreateAccPage extends StatefulWidget {
@@ -47,7 +48,7 @@ class _CreateAccPageState extends State<CreateAccPage> {
                   width: double.infinity,
                   child: ElevatedButton(
                     onPressed: () {
-                      // Handle login logic
+                      Navigator.pushNamed(context,  AppRoutes.roleSelection);
                     },
                     style: ElevatedButton.styleFrom(
                       padding: EdgeInsets.symmetric(vertical: 16),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hemophilia_manager/routes/routes.dart';
 import 'package:hemophilia_manager/widgets/custom_textfield.dart';
 
@@ -56,7 +57,7 @@ class _LoginPageState extends State<LoginPage> {
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () {
-                  Navigator.pushNamed(context,  AppRoutes.roleSelection);
+                  // Directly Goes to UserDashboard
                 },
                 style: ElevatedButton.styleFrom(
                   padding: EdgeInsets.symmetric(vertical: 16),
@@ -102,7 +103,7 @@ class _LoginPageState extends State<LoginPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 IconButton(
-                  icon: Icon(Icons.mail, color: Colors.green, size: 40),
+                  icon: Icon(FontAwesomeIcons.google, color: Colors.green, size: 40),
                   onPressed: () {
                     // Handle email sign-in
                   },
