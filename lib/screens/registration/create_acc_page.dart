@@ -18,67 +18,98 @@ class _CreateAccPageState extends State<CreateAccPage> {
         child: Center(
           child: SingleChildScrollView(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  'Lets Register an Account',
-                  style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+                Center(
+                  child: Text(
+                    'BleedWatch',
+                    style: TextStyle(
+                      fontSize: 32,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.redAccent,
+                      letterSpacing: 1.2,
+                    ),
+                  ),
                 ),
-
-                SizedBox(height: 40),
-
-                CustomTextfield(labelTitle: 'Full Name'),
-
-                SizedBox(height: 14),
-
-                CustomTextfield(labelTitle: 'Phone Number'),
-
-                SizedBox(height: 14),
-
-                CustomTextfield(labelTitle: 'Password'),
-
-                SizedBox(height: 14),
-
-                CustomTextfield(labelTitle: 'Confirm Password'),
-
-                SizedBox(height: 20),
-
+                SizedBox(height: 36),
+                Text(
+                  'Create your account',
+                  style: TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.black87,
+                  ),
+                ),
+                SizedBox(height: 28),
+                TextField(
+                  decoration: InputDecoration(
+                    prefixIcon: Icon(Icons.person_outline, color: Colors.redAccent),
+                    labelText: 'Full Name',
+                    border: UnderlineInputBorder(),
+                  ),
+                  keyboardType: TextInputType.name,
+                ),
+                SizedBox(height: 18),
+                TextField(
+                  decoration: InputDecoration(
+                    prefixIcon: Icon(Icons.phone_outlined, color: Colors.redAccent),
+                    labelText: 'Phone Number',
+                    border: UnderlineInputBorder(),
+                  ),
+                  keyboardType: TextInputType.phone,
+                ),
+                SizedBox(height: 18),
+                TextField(
+                  obscureText: true,
+                  decoration: InputDecoration(
+                    prefixIcon: Icon(Icons.lock_outline, color: Colors.redAccent),
+                    labelText: 'Password',
+                    border: UnderlineInputBorder(),
+                  ),
+                ),
+                SizedBox(height: 18),
+                TextField(
+                  obscureText: true,
+                  decoration: InputDecoration(
+                    prefixIcon: Icon(Icons.lock_outline, color: Colors.redAccent),
+                    labelText: 'Confirm Password',
+                    border: UnderlineInputBorder(),
+                  ),
+                ),
+                SizedBox(height: 28),
                 SizedBox(
                   width: double.infinity,
-                  child: ElevatedButton(
+                  child: FilledButton(
                     onPressed: () {
-                      Navigator.pushNamed(context,  AppRoutes.roleSelection);
+                      Navigator.pushNamed(context, AppRoutes.roleSelection);
                     },
-                    style: ElevatedButton.styleFrom(
+                    style: FilledButton.styleFrom(
+                      backgroundColor: Colors.redAccent,
                       padding: EdgeInsets.symmetric(vertical: 16),
-                      backgroundColor: Colors.green,
-                      foregroundColor: Colors.white,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
                       ),
                     ),
                     child: Text(
-                      'Login',
-                      style: TextStyle(fontWeight: FontWeight.w600),
+                      'Register',
+                      style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
                     ),
                   ),
                 ),
-
-                SizedBox(height: 20),
-
+                SizedBox(height: 32),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text('Already have an account?'),
+                    Text('Already have an account?', style: TextStyle(color: Colors.black87)),
                     TextButton(
                       onPressed: () {},
+                      style: TextButton.styleFrom(
+                        foregroundColor: Colors.blue,
+                        padding: EdgeInsets.zero,
+                      ),
                       child: Text(
                         'Login',
-                        style: TextStyle(
-                          color: Colors.blue,
-                          fontWeight: FontWeight.bold,
-                        ),
+                        style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                     ),
                   ],

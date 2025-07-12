@@ -13,48 +13,103 @@ class _EducationalResourcesState extends State<EducationalResources> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Educational Resources', style: TextStyle(fontWeight: FontWeight.bold),),
-        centerTitle: true,
+        leading: Icon(FontAwesomeIcons.angleLeft, size: 30),
+        actions: [
+          IconButton(
+            onPressed: () {
+              // Open information
+            },
+            icon: Icon(Icons.info, size: 30, color: Colors.blueAccent),
+          ),
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(15.0),
-        child: ListView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            ListTile(
-              leading: Icon(FontAwesomeIcons.book, color: Colors.red),
-              title: Text('Understanding Hemophilia'),
-              subtitle: Text('12 Topics'),
-              onTap: () {
-                // Navigate to the resource details
-              },
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Educational Resources',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
+                ),
+                Text('Free Resources'),
+              ],
             ),
-            ListTile(
-              leading: Icon(FontAwesomeIcons.capsules, color: Colors.red),
-              title: Text('Treatment Options'),
-              subtitle: Text('8 Topics'),
-              onTap: () {
-                // Navigate to the resource details
-              },
-            ),
-            ListTile(
-              leading: Icon(FontAwesomeIcons.weightScale, color: Colors.red),
-              title: Text('Living with Hemophilia'),
-              subtitle: Text('5 Topics'),
-              onTap: () {
-                // Navigate to the resource details
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.article, color: Colors.red),
-              title: Text('Family and Caregiver Support'),
-              subtitle: Text('10 Topics'),
-              onTap: () {
-                // Navigate to the resource details
-              },
+
+            SizedBox(height: 15),
+
+            Expanded(
+              child: ListView(
+                children: [
+                  ActionList(
+                    listTitle: 'Understanding Hemophilia',
+                    listIcon: FontAwesomeIcons.book,
+                    listIconColor: Colors.green,
+                    listSubtitle: '12 Topics',
+                    onTap: () {},
+                  ),
+                  SizedBox(height: 10),
+                  ActionList(
+                    listTitle: 'Treatment Options',
+                    listIcon: FontAwesomeIcons.pills,
+                    listIconColor: Colors.redAccent,
+                    listSubtitle: '8 Topics',
+                    onTap: () {},
+                  ),
+                  SizedBox(height: 10),
+                  ActionList(
+                    listTitle: 'Living with Hemophilia',
+                    listIcon: FontAwesomeIcons.weightScale,
+                    listIconColor: Colors.blueAccent,
+                    listSubtitle: '15 Topics',
+                    onTap: () {},
+                  ),
+                  SizedBox(height: 10),
+                  ActionList(
+                    listTitle: 'Family and Caregivers',
+                    listIcon: FontAwesomeIcons.peopleGroup,
+                    listIconColor: Colors.yellow,
+                    listSubtitle: '10 Topics',
+                    onTap: () {},
+                  ),
+                ],
+              ),
             ),
           ],
         ),
       ),
+    );
+  }
+}
+
+class ActionList extends StatelessWidget {
+  final String listTitle;
+  final String listSubtitle;
+  final IconData listIcon;
+  final Color listIconColor;
+  final VoidCallback onTap;
+
+  const ActionList({
+    super.key,
+    required this.listTitle,
+    required this.listIcon,
+    required this.listSubtitle,
+    required this.onTap,
+    required this.listIconColor,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      leading: Icon(listIcon, color: listIconColor),
+      title: Text(listTitle, style: TextStyle(fontWeight: FontWeight.w600)),
+      subtitle: Text(listSubtitle),
+      onTap: onTap,
+      // ignore: deprecated_member_use
+      tileColor: listIconColor.withOpacity(0.15),
     );
   }
 }

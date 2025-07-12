@@ -12,56 +12,56 @@ class _ChooseRoleSelectionState extends State<ChooseRoleSelection> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        
+        backgroundColor: Colors.white,
+        elevation: 0,
       ),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(25.0),
+          padding: const EdgeInsets.symmetric(horizontal: 18.0, vertical: 12),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('Nice!!'),
-                  Text(
-                    'Lets get started. What type of account do want to?',
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                  ),
-                ],
+
+              Text(
+                'What type of account do you want to create?',
+                style: TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.black87,
+                ),
               ),
-
-              SizedBox(height: 25),
-
+              SizedBox(height: 24),
               Expanded(
                 child: ListView(
                   physics: NeverScrollableScrollPhysics(),
                   children: [
                     AccountList(
                       listIcon: FontAwesomeIcons.person,
-                      listTitle: 'Im a Patient',
-                      listSubtitle:
-                          'I have hemophilia and I want to track my own health',
+                      listTitle: 'I\'m a Patient',
+                      listSubtitle: 'I want to track my own health',
+                      color: Colors.redAccent,
                       onTap: () {
                         Navigator.pushNamed(context, '/user_fillup');
                       },
                     ),
-                    SizedBox(height: 20),
+                    SizedBox(height: 12),
                     AccountList(
                       listIcon: FontAwesomeIcons.personBreastfeeding,
-                      listTitle: 'Im a Caregiver',
-                      listSubtitle:
-                          'I care for someone with hemophilia and I want to track their health',
+                      listTitle: 'I\'m a Caregiver',
+                      listSubtitle: 'I want to track someone else\'s health',
+                      color: Colors.orangeAccent,
                       onTap: () {
                         // Navigations
                       },
                     ),
-                    SizedBox(height: 20),
+                    SizedBox(height: 12),
                     AccountList(
                       listIcon: FontAwesomeIcons.userDoctor,
-                      listTitle: 'Im a Medical Profesional',
-                      listSubtitle:
-                          'I work with patients who have hemophilia and I want to track their health',
+                      listTitle: 'I\'m a Medical Professional',
+                      listSubtitle: 'I want to track patients who have hemophilia',
+                      color: Colors.blueAccent,
                       onTap: () {
                         // Navigations
                       },
@@ -82,6 +82,7 @@ class AccountList extends StatelessWidget {
   final String listSubtitle;
   final IconData listIcon;
   final VoidCallback onTap;
+  final Color color;
 
   const AccountList({
     super.key,
@@ -89,20 +90,35 @@ class AccountList extends StatelessWidget {
     required this.listIcon,
     required this.listSubtitle,
     required this.onTap,
+    required this.color,
   });
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-      horizontalTitleGap: 20,
-      leading: Icon(listIcon, size: 50, color: Colors.white),
+      // ignore: deprecated_member_use
+      tileColor: color.withOpacity(0.1),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(8),
+      ),
+      contentPadding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+      leading: Icon(listIcon, size: 32, color: color),
       title: Text(
         listTitle,
-        style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 18),
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
+          color: color,
+          fontSize: 17,
+        ),
       ),
-      subtitle: Text(listSubtitle),
-      tileColor: const Color.fromARGB(155, 158, 158, 158),
+      subtitle: Text(
+        listSubtitle,
+        style: TextStyle(
+          color: Colors.black87,
+          fontSize: 14,
+        ),
+      ),
+      trailing: Icon(Icons.arrow_forward_ios, color: color, size: 20),
       onTap: onTap,
     );
   }

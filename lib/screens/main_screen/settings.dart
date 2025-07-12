@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:hemophilia_manager/widgets/custom_settings_tile.dart';
+import '../../../main.dart'; // Import the themeNotifier
 
 class UserSettings extends StatefulWidget {
   const UserSettings({super.key});
@@ -20,148 +20,169 @@ class _UserSettingsState extends State<UserSettings> {
         ),
         centerTitle: true,
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(height: 10),
-              // User Image with name and email address with edit button under it
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    spacing: 10,
-                    children: [
-                      // Image Placeholder
-                      Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(50),
-                          color: Colors.grey,
-                        ),
-                        padding: EdgeInsets.all(40),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 15),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(height: 10),
+            // User Image with name and email address with edit button under it
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  spacing: 10,
+                  children: [
+                    // Image Placeholder
+                    Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(50),
+                        color: Colors.grey,
                       ),
-        
-                      // Name and email Add
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Name Placeholder',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20,
-                            ),
-                          ),
-                          Text('username@gmail.com'),
-                        ],
-                      ),
-                    ],
-                  ),
-        
-                  SizedBox(height: 5),
-        
-                  FilledButton(
-                    onPressed: () {
-                      // Action
-                    },
-                    style: FilledButton.styleFrom(
-                      backgroundColor: Colors.blue,
-                      shape: RoundedRectangleBorder()
+                      padding: EdgeInsets.all(40),
                     ),
-                    child: Text('Edit Profile'),
+
+                    // Name and email Add
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Name Placeholder',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                          ),
+                        ),
+                        Text('username@gmail.com'),
+                      ],
+                    ),
+                  ],
+                ),
+
+                SizedBox(height: 5),
+
+                FilledButton(
+                  onPressed: () {
+                    // Action
+                  },
+                  style: FilledButton.styleFrom(
+                    backgroundColor: Colors.blue,
+                    shape: RoundedRectangleBorder(),
+                  ),
+                  child: Text('Edit Personal Information'),
+                ),
+              ],
+            ),
+
+            SizedBox(height: 20),
+
+            Expanded(
+              child: ListView(
+                children: [
+                  CustomSettingsListTile(
+                    tileTitle: 'Notification and Sounds',
+                    tileIcon: FontAwesomeIcons.bell,
+                    iconBg: Colors.grey,
+                    onTap: () {},
+                    trailing: null,
+                  ),
+                  SizedBox(height: 5),
+                  CustomSettingsListTile(
+                    tileTitle: 'Dark Mode',
+                    tileIcon: FontAwesomeIcons.paintRoller,
+                    iconBg: Colors.grey,
+                    trailing: Switch(
+                      activeColor: Colors.green,
+                      trackOutlineColor: MaterialStateProperty.all(Colors.grey),
+                      value: themeNotifier.value == ThemeMode.dark,
+                      onChanged: (value) {
+                        themeNotifier.value = value ? ThemeMode.dark : ThemeMode.light;
+                      },
+                    ),
+                  ),
+                  SizedBox(height: 5),
+                  CustomSettingsListTile(
+                    tileTitle: 'Password',
+                    tileIcon: FontAwesomeIcons.lock,
+                    iconBg: Colors.grey,
+                    onTap: () {},
+                    trailing: null,
+                  ),
+                  SizedBox(height: 5),
+                  CustomSettingsListTile(
+                    tileTitle: 'Clear cache',
+                    tileIcon: FontAwesomeIcons.brush,
+                    iconBg: Colors.grey,
+                    onTap: () {},
+                    trailing: null,
+                  ),
+                  SizedBox(height: 5),
+                  CustomSettingsListTile(
+                    tileTitle: 'Terms and Privacy Policy',
+                    tileIcon: FontAwesomeIcons.info,
+                    iconBg: Colors.grey,
+                    onTap: () {},
+                    trailing: null,
+                  ),
+                  SizedBox(height: 5),
+                  CustomSettingsListTile(
+                    tileTitle: 'Delete Account',
+                    tileIcon: FontAwesomeIcons.trashCan,
+                    iconBg: Colors.grey,
+                    onTap: () {},
+                    trailing: null,
+                  ),
+                  SizedBox(height: 5),
+                  CustomSettingsListTile(
+                    tileTitle: 'Logout',
+                    tileIcon: FontAwesomeIcons.doorClosed,
+                    iconBg: Colors.redAccent,
+                    onTap: () {},
+                    trailing: null,
                   ),
                 ],
               ),
-        
-              SizedBox(height: 20),
-        
-              // Preferences. Notification and sounds and Theme
-              Text('Preferences'),
-              SizedBox(height: 5),
-              Container(
-                padding: EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  color: const Color.fromARGB(80, 158, 158, 158),
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Column(
-                  children: [
-                    CustomSettingsListTile(
-                      tileTitle: 'Notification and Sounds',
-                      tileIcon: FontAwesomeIcons.bell,
-                      iconBg: Colors.grey,
-                    ),
-        
-                    Divider(thickness: 1, color: Colors.white),
-        
-                    CustomSettingsListTile(
-                      tileTitle: 'Theme',
-                      tileIcon: FontAwesomeIcons.paintRoller,
-                      iconBg: Colors.grey,
-                    ),
-                  ],
-                ),
-              ),
-        
-              SizedBox(height: 20),
-        
-              // Account. Password, Clear Cache, Terms and Privacy Policy, Delete Account, LogOut
-              Text('Account'),
-              SizedBox(height: 5),
-              Container(
-                padding: EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  color: const Color.fromARGB(80, 158, 158, 158),
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Column(
-                  children: [
-                    CustomSettingsListTile(
-                      tileTitle: 'Password',
-                      tileIcon: FontAwesomeIcons.lock,
-                      iconBg: Colors.grey,
-                    ),
-        
-                    Divider(thickness: 1, color: Colors.white),
-        
-                    CustomSettingsListTile(
-                      tileTitle: 'Clear cache',
-                      tileIcon: FontAwesomeIcons.brush,
-                      iconBg: Colors.grey,
-                    ),
-        
-                    Divider(thickness: 1, color: Colors.white),
-        
-                    CustomSettingsListTile(
-                      tileTitle: 'Terms and Privacy Policy',
-                      tileIcon: FontAwesomeIcons.info,
-                      iconBg: Colors.grey,
-                    ),
-        
-                    Divider(thickness: 1, color: Colors.white),
-        
-                    CustomSettingsListTile(
-                      tileTitle: 'Delete Account',
-                      tileIcon: FontAwesomeIcons.trashCan,
-                      iconBg: Colors.grey,
-                    ),
-        
-                    Divider(thickness: 1, color: Colors.white),
-        
-                    CustomSettingsListTile(
-                      tileTitle: 'Logout',
-                      tileIcon: FontAwesomeIcons.doorClosed,
-                      iconBg: Colors.redAccent,
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
+    );
+  }
+}
+
+class CustomSettingsListTile extends StatelessWidget {
+  final String tileTitle;
+  final IconData tileIcon;
+  final Color iconBg;
+  final VoidCallback? onTap;
+  final Widget? trailing;
+
+  const CustomSettingsListTile({
+    super.key,
+    required this.tileTitle,
+    required this.tileIcon,
+    required this.iconBg,
+    this.onTap,
+    this.trailing,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      title: Text(tileTitle),
+      contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+      leading: Container(
+        padding: const EdgeInsets.all(10.0),
+        decoration: BoxDecoration(
+          color: iconBg,
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Icon(tileIcon, color: Colors.white),
+      ),
+      tileColor: Colors.grey.shade200,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+      trailing: trailing, // Only shows if not null
+      onTap: onTap,
     );
   }
 }

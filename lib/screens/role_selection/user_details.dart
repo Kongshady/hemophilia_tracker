@@ -13,72 +13,66 @@ class _UserDetailsState extends State<UserDetails> {
     return Scaffold(
       appBar: AppBar(),
       body: Padding(
-        padding: const EdgeInsets.all(25.0),
-        child: Column(
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text('Almost There!'),
-                Text(
-                  'What is your Name?',
-                  style: TextStyle(fontWeight: FontWeight.w600, fontSize: 24),
+        padding: const EdgeInsets.symmetric(horizontal: 28.0),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Almost there!',
+                style: TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.redAccent,
                 ),
-                SizedBox(height: 25),
-                UserTextfield(labelTitle: 'Name'),
-                SizedBox(height: 15),
-                UserTextfield(labelTitle: 'Last name'),
-                SizedBox(height: 15),
-                // terms and policy here
-                SizedBox(
-                  width: double.infinity,
-                  child: FilledButton(
-                    onPressed: () {
-                      Navigator.pushNamed(context, '/user_account_created');
-                    },
-                    style: FilledButton.styleFrom(
-                      backgroundColor: Colors.redAccent,
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadiusGeometry.circular(8)),
-                      padding: EdgeInsets.all(13)
-                    ),
-                    child: Text('Create Account'),
+              ),
+              SizedBox(height: 10),
+              Text(
+                'What is your name?',
+                style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 20,
+                  color: Colors.black87,
+                ),
+              ),
+              SizedBox(height: 32),
+              TextField(
+                decoration: InputDecoration(
+                  prefixIcon: Icon(Icons.person_outline, color: Colors.redAccent),
+                  labelText: 'First Name',
+                  border: UnderlineInputBorder(),
+                ),
+                keyboardType: TextInputType.name,
+              ),
+              SizedBox(height: 18),
+              TextField(
+                decoration: InputDecoration(
+                  prefixIcon: Icon(Icons.person_outline, color: Colors.redAccent),
+                  labelText: 'Last Name',
+                  border: UnderlineInputBorder(),
+                ),
+                keyboardType: TextInputType.name,
+              ),
+              SizedBox(height: 28),
+              SizedBox(
+                width: double.infinity,
+                child: FilledButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/user_account_created');
+                  },
+                  style: FilledButton.styleFrom(
+                    backgroundColor: Colors.redAccent,
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                    padding: EdgeInsets.symmetric(vertical: 14),
+                  ),
+                  child: Text(
+                    'Create Account',
+                    style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
                   ),
                 ),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class UserTextfield extends StatefulWidget {
-  final String labelTitle;
-
-  const UserTextfield({super.key, required this.labelTitle});
-
-  @override
-  State<UserTextfield> createState() => _UserTextfieldState();
-}
-
-class _UserTextfieldState extends State<UserTextfield> {
-  @override
-  Widget build(BuildContext context) {
-    return TextField(
-      decoration: InputDecoration(
-        labelText: widget.labelTitle,
-        floatingLabelStyle: TextStyle(
-          color: const Color.fromARGB(255, 0, 140, 255),
-          fontWeight: FontWeight.bold,
-        ),
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(15.0)),
-        focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(
-            color: const Color.fromARGB(255, 0, 140, 255),
-            width: 2.0,
+              ),
+            ],
           ),
-          borderRadius: BorderRadius.circular(15.0),
         ),
       ),
     );

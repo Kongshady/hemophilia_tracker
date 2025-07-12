@@ -97,7 +97,7 @@ class _MainScreenDisplayState extends State<MainScreenDisplay> {
                               icon: FontAwesomeIcons.clockRotateLeft,
                               bgColor: Colors.amber,
                               onTap: () {
-                                Navigator.pushNamed(context, '/log_bleed');
+                                Navigator.pushNamed(context, '/log_history');
                               },
                             ),
                           ],

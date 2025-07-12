@@ -12,7 +12,6 @@ class _ScheduleMedicationScreenState extends State<ScheduleMedicationScreen> {
   final List<String> _medTypes = ['IV Injection', 'Subcutaneous', 'Oral'];
   final TextEditingController _doseController = TextEditingController(text: '1000 IU');
   TimeOfDay _selectedTime = TimeOfDay(hour: 9, minute: 0);
-  bool _isAm = true;
   bool _notification = true;
 
   @override
@@ -22,8 +21,8 @@ class _ScheduleMedicationScreenState extends State<ScheduleMedicationScreen> {
         leading: BackButton(),
         title: const Text(''),
         elevation: 0,
-        backgroundColor: Colors.transparent,
-        foregroundColor: Colors.black,
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.redAccent,
       ),
       body: SafeArea(
         child: Padding(
@@ -32,12 +31,16 @@ class _ScheduleMedicationScreenState extends State<ScheduleMedicationScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 8),
-              const Text(
-                'Schedule Medicine',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
+              Text(
+                'Schedule Medication',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 24,
+                  color: Colors.redAccent,
+                ),
               ),
-              const SizedBox(height: 24),
-              const Text(
+              const SizedBox(height: 28),
+              Text(
                 'Medication Type',
                 style: TextStyle(fontWeight: FontWeight.w600, fontSize: 15),
               ),
@@ -54,12 +57,13 @@ class _ScheduleMedicationScreenState extends State<ScheduleMedicationScreen> {
                   if (val != null) setState(() => _medType = val);
                 },
                 decoration: InputDecoration(
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                  prefixIcon: Icon(Icons.medication_outlined, color: Colors.redAccent),
+                  border: UnderlineInputBorder(),
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
                 ),
               ),
               const SizedBox(height: 18),
-              const Text(
+              Text(
                 'Dose',
                 style: TextStyle(fontWeight: FontWeight.w600, fontSize: 15),
               ),
@@ -67,70 +71,54 @@ class _ScheduleMedicationScreenState extends State<ScheduleMedicationScreen> {
               TextField(
                 controller: _doseController,
                 decoration: InputDecoration(
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                  prefixIcon: Icon(Icons.numbers, color: Colors.redAccent),
+                  labelText: 'Dose (e.g. 1000 IU)',
+                  border: UnderlineInputBorder(),
                 ),
                 keyboardType: TextInputType.text,
               ),
               const SizedBox(height: 18),
-              const Text(
+              Text(
                 'Time',
                 style: TextStyle(fontWeight: FontWeight.w600, fontSize: 15),
               ),
               const SizedBox(height: 8),
-              Row(
-                children: [
-                  Expanded(
-                    flex: 2,
-                    child: InkWell(
-                      borderRadius: BorderRadius.circular(10),
-                      onTap: () async {
-                        final picked = await showTimePicker(
-                          context: context,
-                          initialTime: _selectedTime,
-                        );
-                        if (picked != null) {
-                          setState(() {
-                            _selectedTime = picked;
-                            _isAm = picked.period == DayPeriod.am;
-                          });
-                        }
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-                        decoration: BoxDecoration(
-                          border: Border.all(color: Colors.grey.shade400),
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Text(
-                          _selectedTime.format(context).split(' ')[0],
-                          style: const TextStyle(fontSize: 16),
-                        ),
-                      ),
-                    ),
+              InkWell(
+                borderRadius: BorderRadius.circular(8),
+                onTap: () async {
+                  final picked = await showTimePicker(
+                    context: context,
+                    initialTime: _selectedTime,
+                  );
+                  if (picked != null) {
+                    setState(() {
+                      _selectedTime = picked;
+                    });
+                  }
+                },
+                child: Container(
+                  padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 12),
+                  decoration: BoxDecoration(
+                    color: Colors.grey.shade100,
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(color: Colors.grey.shade300),
                   ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    flex: 1,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.grey.shade400),
-                        borderRadius: BorderRadius.circular(10),
+                  child: Row(
+                    children: [
+                      Icon(Icons.access_time, color: Colors.redAccent),
+                      SizedBox(width: 12),
+                      Text(
+                        _selectedTime.format(context),
+                        style: TextStyle(fontSize: 16),
                       ),
-                      child: Text(
-                        _isAm ? 'AM' : 'PM',
-                        style: const TextStyle(fontSize: 16),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
+                    ],
                   ),
-                ],
+                ),
               ),
               const SizedBox(height: 22),
               Row(
                 children: [
-                  const Text(
+                  Text(
                     'Notification',
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                   ),
@@ -147,9 +135,9 @@ class _ScheduleMedicationScreenState extends State<ScheduleMedicationScreen> {
               const Spacer(),
               SizedBox(
                 width: double.infinity,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF232F3E),
+                child: FilledButton(
+                  style: FilledButton.styleFrom(
+                    backgroundColor: Colors.redAccent,
                     padding: const EdgeInsets.symmetric(vertical: 16),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8),
@@ -165,10 +153,10 @@ class _ScheduleMedicationScreenState extends State<ScheduleMedicationScreen> {
                 ),
               ),
               const SizedBox(height: 16),
-                  ],
-                ),
-              ),
+            ],
+          ),
+        ),
       ),
-          );
-        }
-      }
+    );
+  }
+}

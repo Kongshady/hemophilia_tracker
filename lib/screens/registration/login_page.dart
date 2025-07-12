@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:hemophilia_manager/routes/routes.dart';
 import 'package:hemophilia_manager/widgets/custom_textfield.dart';
 
 class LoginPage extends StatefulWidget {
@@ -14,136 +13,161 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Padding(
-        padding: const EdgeInsets.all(25.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Lets Sign you in',
-              style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
-            ),
-
-            SizedBox(height: 40),
-
-            CustomTextfield(labelTitle: 'Email or Phone Number'),
-
-            SizedBox(height: 14),
-
-            CustomTextfield(labelTitle: 'Password'),
-
-            SizedBox(height: 5),
-
-            Row(
+        padding: const EdgeInsets.symmetric(horizontal: 28.0),
+        child: Center(
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Spacer(),
-                TextButton(
-                  onPressed: () {},
+                // Minimalist app name
+                Center(
                   child: Text(
-                    'Forgot Password?',
+                    'BleedWatch',
                     style: TextStyle(
-                      color: Colors.blue,
+                      fontSize: 32,
                       fontWeight: FontWeight.bold,
+                      color: Colors.redAccent,
+                      letterSpacing: 1.2,
                     ),
                   ),
                 ),
-              ],
-            ),
-
-            SizedBox(height: 5),
-
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: () {
-                  // Directly Goes to UserDashboard
-                },
-                style: ElevatedButton.styleFrom(
-                  padding: EdgeInsets.symmetric(vertical: 16),
-                  backgroundColor: Colors.green,
-                  foregroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
+                SizedBox(height: 36),
+                Text(
+                  'Sign in to your account',
+                  style: TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.black87,
                   ),
                 ),
-                child: Text(
-                  'Login',
-                  style: TextStyle(fontWeight: FontWeight.w600),
+                SizedBox(height: 28),
+                // Email field with icon
+                TextField(
+                  decoration: InputDecoration(
+                    prefixIcon: Icon(Icons.email_outlined, color: Colors.redAccent),
+                    labelText: 'Email or Phone Number',
+                    border: UnderlineInputBorder(),
+                  ),
+                  keyboardType: TextInputType.emailAddress,
                 ),
-              ),
-            ),
-
-            SizedBox(height: 10),
-
-            Row(
-              children: [
-                Expanded(
-                  child: Divider(
-                    color: const Color.fromARGB(141, 158, 158, 158),
-                    thickness: 1.0,
+                SizedBox(height: 18),
+                // Password field with icon
+                TextField(
+                  obscureText: true,
+                  decoration: InputDecoration(
+                    prefixIcon: Icon(Icons.lock_outline, color: Colors.redAccent),
+                    labelText: 'Password',
+                    border: UnderlineInputBorder(),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                  child: Text('Or'),
-                ),
-                Expanded(
-                  child: Divider(
-                    color: const Color.fromARGB(141, 158, 158, 158),
-                    thickness: 1.0,
-                  ),
-                ),
-              ],
-            ),
-
-            SizedBox(height: 10),
-
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                IconButton(
-                  icon: Icon(FontAwesomeIcons.google, color: Colors.green, size: 40),
-                  onPressed: () {
-                    // Handle email sign-in
-                  },
-                ),
-                SizedBox(width: 7),
-                IconButton(
-                  icon: Icon(Icons.facebook, color: Colors.blue, size: 40),
-                  onPressed: () {
-                    // Handle Facebook sign-in
-                  },
-                ),
-                SizedBox(width: 7),
-                IconButton(
-                  icon: Icon(Icons.apple, color: Colors.black, size: 40),
-                  onPressed: () {
-                    // Handle Apple sign-in
-                  },
-                ),
-              ],
-            ),
-
-            SizedBox(height: 20),
-
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text('Dont have an account?'),
-                TextButton(
-                  onPressed: () {},
-                  child: Text(
-                    'Register now',
-                    style: TextStyle(
-                      color: Colors.blue,
-                      fontWeight: FontWeight.bold,
+                SizedBox(height: 8),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: TextButton(
+                    onPressed: () {},
+                    style: TextButton.styleFrom(
+                      foregroundColor: Colors.blue,
+                      padding: EdgeInsets.zero,
+                    ),
+                    child: Text(
+                      'Forgot Password?',
+                      style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                   ),
                 ),
+                SizedBox(height: 18),
+                SizedBox(
+                  width: double.infinity,
+                  child: FilledButton(
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/user_screen');
+                    },
+                    style: FilledButton.styleFrom(
+                      backgroundColor: Colors.redAccent,
+                      padding: EdgeInsets.symmetric(vertical: 16),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                    ),
+                    child: Text(
+                      'Login',
+                      style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 22),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Divider(
+                        color: Colors.grey.shade300,
+                        thickness: 1.0,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      child: Text('or', style: TextStyle(color: Colors.black54)),
+                    ),
+                    Expanded(
+                      child: Divider(
+                        color: Colors.grey.shade300,
+                        thickness: 1.0,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 18),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    IconButton(
+                      icon: Icon(FontAwesomeIcons.google, color: Colors.redAccent, size: 28),
+                      onPressed: () {
+                        // Google sign-in
+                      },
+                      tooltip: 'Sign in with Google',
+                    ),
+                    SizedBox(width: 18),
+                    IconButton(
+                      icon: Icon(FontAwesomeIcons.facebookF, color: Colors.blueAccent, size: 28),
+                      onPressed: () {
+                        // Facebook sign-in
+                      },
+                      tooltip: 'Sign in with Facebook',
+                    ),
+                    SizedBox(width: 18),
+                    IconButton(
+                      icon: Icon(FontAwesomeIcons.apple, color: Colors.black, size: 28),
+                      onPressed: () {
+                        // Apple sign-in
+                      },
+                      tooltip: 'Sign in with Apple',
+                    ),
+                  ],
+                ),
+                SizedBox(height: 32),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text('Don\'t have an account?', style: TextStyle(color: Colors.black87)),
+                    TextButton(
+                      onPressed: () {},
+                      style: TextButton.styleFrom(
+                        foregroundColor: Colors.blue,
+                        padding: EdgeInsets.zero,
+                      ),
+                      child: Text(
+                        'Register now',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ],
+                ),
               ],
             ),
-          ],
+          ),
         ),
       ),
     );

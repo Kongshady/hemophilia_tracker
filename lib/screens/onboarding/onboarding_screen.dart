@@ -54,7 +54,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               controller: _controller,
               children: [
                 OnboardingPage1(
-                  textTitle: 'Welcome to HemoTrackPH',
+                  textTitle: 'Welcome to BleedWatchPH',
                   textSubTitle:
                       'Your all-in-one solution for managing hemophilia care.',
                   imagePath: 'assets/images/Onboard_img_calculator.jpg',
@@ -91,41 +91,48 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               ],
             ),
             // Bottom-aligned indicator and button
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: Padding(
-                padding: const EdgeInsets.only(bottom: 40.0),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    SmoothPageIndicator(
-                      effect: ExpandingDotsEffect(
-                        dotColor: const Color.fromARGB(255, 199, 199, 199),
-                        activeDotColor: Colors.red,
-                        dotHeight: 10,
-                        dotWidth: 10,
-                        spacing: 8.0,
-                      ),
-                      controller: _controller,
-                      count: 6,
-                    ),
-                    const SizedBox(height: 15),
-                    ElevatedButton(
-                      onPressed: _goToNextPage,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.red,
-                        foregroundColor: Colors.white,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(5),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 40.0),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      SmoothPageIndicator(
+                        effect: ExpandingDotsEffect(
+                          dotColor: const Color.fromARGB(255, 199, 199, 199),
+                          activeDotColor: Colors.red,
+                          dotHeight: 10,
+                          dotWidth: 10,
+                          spacing: 8.0,
                         ),
-                        
+                        controller: _controller,
+                        count: 6,
                       ),
-                      child: Text(
-                        _currentPage == 5 ? "Get Started" : "Next",
-                        style: const TextStyle(fontWeight: FontWeight.w500),
+                      const SizedBox(height: 18),
+                      SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          onPressed: _goToNextPage,
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.red,
+                            foregroundColor: Colors.white,
+                            minimumSize: const Size(150, 50),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                            
+                          ),
+                          child: Text(
+                            _currentPage == 5 ? "Get Started" : "Next",
+                            style: const TextStyle(fontWeight: FontWeight.w500),
+                          ),
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),

@@ -15,8 +15,8 @@ class _DashboardState extends State<Dashboard> {
       // backgroundColor: Colors.grey,
       appBar: AppBar(
         title: const Text(
-          'HemoTrack PH',
-          style: TextStyle(fontWeight: FontWeight.bold),
+          'BleedWatchPH',
+          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.redAccent),
         ),
         centerTitle: true,
         actions: [
@@ -36,152 +36,229 @@ class _DashboardState extends State<Dashboard> {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 25.0),
+          padding: const EdgeInsets.symmetric(horizontal: 18.0, vertical: 18.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: 20),
-              // Greeting for the user
-              Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    spacing: 10,
-                    children: [
-                      Text('Hello, Username!', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),),
-                      Icon(FontAwesomeIcons.handSparkles, color: Colors.blueAccent, size: 35,)
-                    ],
-                  ),
-                  SizedBox(height: 20,),
-        
-                  // Dashboard title
-                  Row(
-                    spacing: 10,
-                    children: [
-                      Icon(Icons.dashboard, size: 30, color: Colors.redAccent,),
-                      Text(
-                        'Dashboard',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 32,
-                        ),
-                      ),
-                    ],
-                  ),
-        
-                  SizedBox(height: 10,),
-        
-                  // Todays Reminder
-                  Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadiusGeometry.circular(15)
-                    ),
-                    color: const Color.fromARGB(110, 64, 195, 255),
-                    child: Padding(
-                      padding: const EdgeInsets.all(15.0),
-                      child: Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text('Today\'s Reminder', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),),
-                              Icon(FontAwesomeIcons.bellConcierge)
-                            ],
-                          ),
-                          SizedBox(height: 10,),
-                          SizedBox(
-                            height: 300,
-                            child: ListView(
-                              children: [
-                                // change to ListView Builder
-                                ListTile(
-                                  leading: Icon(Icons.construction),
-                                  title: Text('Sample Only', style: TextStyle(fontWeight: FontWeight.bold),),
-                                  subtitle: Text('This is a subtitle'),
-                                  tileColor: Colors.grey,
-                                ),
-                                ListTile(
-                                  leading: Icon(Icons.construction),
-                                  title: Text('Sample Only', style: TextStyle(fontWeight: FontWeight.bold),),
-                                  subtitle: Text('This is a subtitle'),
-                                ),
-                                ListTile(
-                                  leading: Icon(Icons.construction),
-                                  title: Text('Sample Only', style: TextStyle(fontWeight: FontWeight.bold),),
-                                  subtitle: Text('This is a subtitle'),
-                                ),
-                                ListTile(
-                                  leading: Icon(Icons.construction),
-                                  title: Text('Sample Only', style: TextStyle(fontWeight: FontWeight.bold),),
-                                  subtitle: Text('This is a subtitle'),
-                                ),
-                              ],
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
+              // Greeting and quick info
+              Text(
+                'Welcome back!',
+                style: TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.redAccent,
+                ),
+              ),
+              SizedBox(height: 4),
+              Text(
+                'Here’s your health summary for today.',
+                style: TextStyle(
+                  fontSize: 16,
+                  color: Colors.black87,
+                ),
+              ),
+              SizedBox(height: 22),
 
-                  SizedBox(height: 20,),
-        
-                  // Recent Activitiy
-                  Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadiusGeometry.circular(15)
+              // Health Overview Section
+              Text(
+                'Health Overview',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                  color: Colors.black87,
+                ),
+              ),
+              SizedBox(height: 10),
+              // 2x2 grid: 2 top, 1 bottom (wellness)
+              Row(
+                children: [
+                  Expanded(
+                    child: _DashboardStatCard(
+                      icon: FontAwesomeIcons.capsules,
+                      iconColor: Colors.blueAccent,
+                      label: 'Next Infusion',
+                      value: 'No schedule',
                     ),
-                    color: Colors.redAccent,
-                    child: Padding(
-                      padding: const EdgeInsets.all(15.0),
-                      child: Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text('Recent Activity', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),),
-                              Icon(Icons.pie_chart)
-                            ],
-                          ),
-                          SizedBox(height: 10,),
-                          SizedBox(
-                            height: 300,
-                            child: ListView(
-                              children: [
-                                // change to ListView Builder
-                                ListTile(
-                                  leading: Icon(Icons.construction),
-                                  title: Text('Sample Only', style: TextStyle(fontWeight: FontWeight.bold),),
-                                  subtitle: Text('This is a subtitle'),
-                                  tileColor: Colors.grey,
-                                ),
-                                ListTile(
-                                  leading: Icon(Icons.construction),
-                                  title: Text('Sample Only', style: TextStyle(fontWeight: FontWeight.bold),),
-                                  subtitle: Text('This is a subtitle'),
-                                ),
-                                ListTile(
-                                  leading: Icon(Icons.construction),
-                                  title: Text('Sample Only', style: TextStyle(fontWeight: FontWeight.bold),),
-                                  subtitle: Text('This is a subtitle'),
-                                ),
-                                ListTile(
-                                  leading: Icon(Icons.construction),
-                                  title: Text('Sample Only', style: TextStyle(fontWeight: FontWeight.bold),),
-                                  subtitle: Text('This is a subtitle'),
-                                ),
-                              ],
-                            ),
-                          )
-                        ],
-                      ),
+                  ),
+                  SizedBox(width: 12),
+                  Expanded(
+                    child: _DashboardStatCard(
+                      icon: FontAwesomeIcons.droplet,
+                      iconColor: Colors.redAccent,
+                      label: 'Last Bleed',
+                      value: 'None recorded',
                     ),
-                  )
+                  ),
                 ],
               ),
+              SizedBox(height: 12),
+              // Wellness container spans full width
+              _DashboardStatCard(
+                icon: FontAwesomeIcons.heartPulse,
+                iconColor: Colors.green,
+                label: 'Wellness',
+                value: 'Good',
+                isFullWidth: true,
+              ),
+              SizedBox(height: 28),
+
+              // Reminders Section
+              Text(
+                'Reminders',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                  color: Colors.black87,
+                ),
+              ),
+              SizedBox(height: 10),
+              _DashboardListSection(
+                items: [
+                  {
+                    'icon': FontAwesomeIcons.syringe,
+                    'color': Colors.redAccent,
+                    'title': 'Infusion Reminder',
+                    'subtitle': 'No infusion scheduled today',
+                  },
+                  {
+                    'icon': FontAwesomeIcons.calendarCheck,
+                    'color': Colors.blueAccent,
+                    'title': 'Doctor Appointment',
+                    'subtitle': 'No appointments today',
+                  },
+                ],
+                emptyText: 'No reminders for today.',
+              ),
+              SizedBox(height: 28),
+
+              // Recent Activity Section
+              Text(
+                'Recent Activity',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                  color: Colors.black87,
+                ),
+              ),
+              SizedBox(height: 10),
+              _DashboardListSection(
+                items: [
+                  {
+                    'icon': FontAwesomeIcons.droplet,
+                    'color': Colors.redAccent,
+                    'title': 'Logged Bleed',
+                    'subtitle': 'Left knee, 2 days ago',
+                  },
+                  {
+                    'icon': FontAwesomeIcons.capsules,
+                    'color': Colors.blueAccent,
+                    'title': 'Infusion Taken',
+                    'subtitle': 'Factor VIII, 3 days ago',
+                  },
+                ],
+                emptyText: 'No recent activity.',
+              ),
+              SizedBox(height: 28),
             ],
           ),
         ),
       ),
+    );
+  }
+}
+
+// Minimalist stat card for dashboard
+class _DashboardStatCard extends StatelessWidget {
+  final IconData icon;
+  final Color iconColor;
+  final String label;
+  final String value;
+  final bool isFullWidth;
+
+  const _DashboardStatCard({
+    required this.icon,
+    required this.iconColor,
+    required this.label,
+    required this.value,
+    this.isFullWidth = false,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: isFullWidth ? double.infinity : null,
+      margin: isFullWidth ? EdgeInsets.symmetric(horizontal: 0) : null,
+      padding: EdgeInsets.symmetric(vertical: 18, horizontal: 8),
+      decoration: BoxDecoration(
+        color: Colors.grey.shade100,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: Colors.grey.shade200),
+      ),
+      child: Row(
+        mainAxisAlignment: isFullWidth ? MainAxisAlignment.start : MainAxisAlignment.center,
+        children: [
+          Icon(icon, color: iconColor, size: 28),
+          SizedBox(width: 14),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                value,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 15,
+                  color: Colors.black87,
+                ),
+              ),
+              SizedBox(height: 4),
+              Text(
+                label,
+                style: TextStyle(
+                  color: Colors.black54,
+                  fontSize: 13,
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// Minimalist list section for reminders and activity
+class _DashboardListSection extends StatelessWidget {
+  final List<Map<String, dynamic>> items;
+  final String emptyText;
+
+  const _DashboardListSection({
+    required this.items,
+    required this.emptyText,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    if (items.isEmpty) {
+      return Padding(
+        padding: const EdgeInsets.symmetric(vertical: 12.0),
+        child: Text(
+          emptyText,
+          style: TextStyle(color: Colors.black54),
+        ),
+      );
+    }
+    return Column(
+      children: items.map((item) {
+        return ListTile(
+          contentPadding: EdgeInsets.symmetric(horizontal: 0, vertical: 2),
+          leading: Icon(item['icon'], color: item['color'], size: 24),
+          title: Text(
+            item['title'],
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+          ),
+          subtitle: Text(item['subtitle'], style: TextStyle(fontSize: 13)),
+        );
+      }).toList(),
     );
   }
 }

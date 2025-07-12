@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hemophilia_manager/screens/homepage/home_page.dart';
-import 'package:hemophilia_manager/screens/main_screen/dashboard_screen.dart';
 import 'package:hemophilia_manager/screens/main_screen/dosage_calculator_screen.dart';
 import 'package:hemophilia_manager/screens/main_screen/log_bleed.dart';
+import 'package:hemophilia_manager/screens/main_screen/log_history_screen.dart';
 import 'package:hemophilia_manager/screens/main_screen/main_screen_display.dart';
 import 'package:hemophilia_manager/screens/main_screen/notifications_screen.dart';
 import 'package:hemophilia_manager/screens/main_screen/schedule_medication_screen.dart';
@@ -28,6 +28,7 @@ class AppRoutes {
   static const String userFillup = '/user_fillup';
   static const String userAccountCreated = '/user_account_created';
   static const String userScreen = '/user_screen';
+  static const String logHistoryScreen = '/log_history';
 
   static Map<String, WidgetBuilder>  routes = {
       onboarding: (context) => const OnboardingScreen(),
@@ -43,6 +44,7 @@ class AppRoutes {
       userFillup: (context) => const UserDetails(),
       userAccountCreated: (context) => const UserCreationSuccess(),
       userScreen: (context) => const MainScreenDisplay(),
+      logHistoryScreen: (context) => const LogHistoryScreen(),
       // Add other routes here as needed
   };
 }
