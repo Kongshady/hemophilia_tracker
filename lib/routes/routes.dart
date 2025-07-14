@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:hemophilia_manager/screens/homepage/home_page.dart';
-import 'package:hemophilia_manager/screens/main_screen/dosage_calculator_screen.dart';
-import 'package:hemophilia_manager/screens/main_screen/log_bleed.dart';
-import 'package:hemophilia_manager/screens/main_screen/log_history_screen.dart';
-import 'package:hemophilia_manager/screens/main_screen/main_screen_display.dart';
-import 'package:hemophilia_manager/screens/main_screen/notifications_screen.dart';
-import 'package:hemophilia_manager/screens/main_screen/schedule_medication_screen.dart';
-import 'package:hemophilia_manager/screens/main_screen/settings.dart';
+import 'package:hemophilia_manager/screens/main_screen/healthcare_provider_screen/healthcare_main_screen.dart';
+import 'package:hemophilia_manager/screens/main_screen/patient_screens/care_provider_screen.dart';
+import 'package:hemophilia_manager/screens/main_screen/patient_screens/care_user_information_screen.dart';
+import 'package:hemophilia_manager/screens/main_screen/patient_screens/dosage_calculator_screen.dart';
+import 'package:hemophilia_manager/screens/main_screen/patient_screens/log_bleed.dart';
+import 'package:hemophilia_manager/screens/main_screen/patient_screens/log_history_screen.dart';
+import 'package:hemophilia_manager/screens/main_screen/patient_screens/main_screen_display.dart';
+import 'package:hemophilia_manager/screens/main_screen/patient_screens/notifications_screen.dart';
+import 'package:hemophilia_manager/screens/main_screen/patient_screens/schedule_medication_screen.dart';
+import 'package:hemophilia_manager/screens/main_screen/patient_screens/settings_screens/main_settings.dart';
+import 'package:hemophilia_manager/screens/main_screen/patient_screens/settings_screens/user_info_settings.dart';
 import 'package:hemophilia_manager/screens/onboarding/onboarding_screen.dart';
 import 'package:hemophilia_manager/screens/registration/create_acc_page.dart';
 import 'package:hemophilia_manager/screens/registration/login_page.dart';
@@ -29,6 +33,10 @@ class AppRoutes {
   static const String userAccountCreated = '/user_account_created';
   static const String userScreen = '/user_screen';
   static const String logHistoryScreen = '/log_history';
+  static const String careProviderScreen = '/care_provider';
+  static const String careUserInformationScreen = '/care_user_information';
+  static const String healthcareMainScreen = '/healthcare_main';
+  static const String userInfoSettings = '/user_info_settings';
 
   static Map<String, WidgetBuilder>  routes = {
       onboarding: (context) => const OnboardingScreen(),
@@ -45,6 +53,10 @@ class AppRoutes {
       userAccountCreated: (context) => const UserCreationSuccess(),
       userScreen: (context) => const MainScreenDisplay(),
       logHistoryScreen: (context) => const LogHistoryScreen(),
+      careProviderScreen: (context) => const CareProviderScreen(),
+      careUserInformationScreen: (context) => const CareUserInformationScreen(),
+      healthcareMainScreen: (context) => const HealthcareMainScreen(),
+      userInfoSettings: (context) => const UserInfoSettings(),
       // Add other routes here as needed
   };
 }

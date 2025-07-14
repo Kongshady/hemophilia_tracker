@@ -63,7 +63,8 @@ class _ChooseRoleSelectionState extends State<ChooseRoleSelection> {
                       listSubtitle: 'I want to track patients who have hemophilia',
                       color: Colors.blueAccent,
                       onTap: () {
-                        // Navigations
+                        Navigator.pushNamed(context, '/healthcare_main');
+                        
                       },
                     ),
                   ],

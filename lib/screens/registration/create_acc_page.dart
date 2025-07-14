@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:hemophilia_manager/routes/routes.dart';
-import 'package:hemophilia_manager/widgets/custom_textfield.dart';
 
 class CreateAccPage extends StatefulWidget {
   const CreateAccPage({super.key});

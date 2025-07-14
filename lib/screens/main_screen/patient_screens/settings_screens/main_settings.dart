@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import '../../../main.dart'; // Import the themeNotifier
+import '../../../../../main.dart'; // Import the themeNotifier
 
 class UserSettings extends StatefulWidget {
   const UserSettings({super.key});
@@ -63,11 +63,13 @@ class _UserSettingsState extends State<UserSettings> {
 
                 FilledButton(
                   onPressed: () {
-                    // Action
+                    Navigator.pushNamed(context, '/user_info_settings');
                   },
                   style: FilledButton.styleFrom(
                     backgroundColor: Colors.blue,
-                    shape: RoundedRectangleBorder(),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
                   ),
                   child: Text('Edit Personal Information'),
                 ),
@@ -80,27 +82,12 @@ class _UserSettingsState extends State<UserSettings> {
               child: ListView(
                 children: [
                   CustomSettingsListTile(
-                    tileTitle: 'Notification and Sounds',
-                    tileIcon: FontAwesomeIcons.bell,
+                    tileTitle: 'Language',
+                    tileIcon: FontAwesomeIcons.language,
                     iconBg: Colors.grey,
                     onTap: () {},
                     trailing: null,
                   ),
-                  SizedBox(height: 5),
-                  CustomSettingsListTile(
-                    tileTitle: 'Dark Mode',
-                    tileIcon: FontAwesomeIcons.paintRoller,
-                    iconBg: Colors.grey,
-                    trailing: Switch(
-                      activeColor: Colors.green,
-                      trackOutlineColor: MaterialStateProperty.all(Colors.grey),
-                      value: themeNotifier.value == ThemeMode.dark,
-                      onChanged: (value) {
-                        themeNotifier.value = value ? ThemeMode.dark : ThemeMode.light;
-                      },
-                    ),
-                  ),
-                  SizedBox(height: 5),
                   CustomSettingsListTile(
                     tileTitle: 'Password',
                     tileIcon: FontAwesomeIcons.lock,
@@ -108,7 +95,40 @@ class _UserSettingsState extends State<UserSettings> {
                     onTap: () {},
                     trailing: null,
                   ),
-                  SizedBox(height: 5),
+                  CustomSettingsListTile(
+                    tileTitle: 'Notification and Sounds',
+                    tileIcon: FontAwesomeIcons.bell,
+                    iconBg: Colors.grey,
+                    onTap: () {},
+                    trailing: null,
+                  ),
+                  SizedBox(height: 10),
+                  Divider(height: 1, color: Colors.grey.shade300),
+                  SizedBox(height: 10),
+                  CustomSettingsListTile(
+                    tileTitle: 'Dark Mode',
+                    tileIcon: FontAwesomeIcons.paintRoller,
+                    iconBg: Colors.grey,
+                    trailing: Switch(
+                      activeColor: Colors.green,
+                      trackOutlineColor: WidgetStateProperty.all(Colors.grey),
+                      value: themeNotifier.value == ThemeMode.dark,
+                      onChanged: (value) {
+                        themeNotifier.value = value
+                            ? ThemeMode.dark
+                            : ThemeMode.light;
+                      },
+                    ),
+                  ),
+
+                  CustomSettingsListTile(
+                    tileTitle: 'About Us',
+                    tileIcon: FontAwesomeIcons.info,
+                    iconBg: Colors.grey,
+                    onTap: () {},
+                    trailing: null,
+                  ),
+
                   CustomSettingsListTile(
                     tileTitle: 'Clear cache',
                     tileIcon: FontAwesomeIcons.brush,
@@ -116,7 +136,7 @@ class _UserSettingsState extends State<UserSettings> {
                     onTap: () {},
                     trailing: null,
                   ),
-                  SizedBox(height: 5),
+
                   CustomSettingsListTile(
                     tileTitle: 'Terms and Privacy Policy',
                     tileIcon: FontAwesomeIcons.info,
@@ -124,21 +144,30 @@ class _UserSettingsState extends State<UserSettings> {
                     onTap: () {},
                     trailing: null,
                   ),
-                  SizedBox(height: 5),
+
                   CustomSettingsListTile(
                     tileTitle: 'Delete Account',
                     tileIcon: FontAwesomeIcons.trashCan,
-                    iconBg: Colors.grey,
+                    textColor: Colors.red,
+                    iconBg: Colors.red,
                     onTap: () {},
                     trailing: null,
                   ),
-                  SizedBox(height: 5),
-                  CustomSettingsListTile(
-                    tileTitle: 'Logout',
-                    tileIcon: FontAwesomeIcons.doorClosed,
-                    iconBg: Colors.redAccent,
-                    onTap: () {},
-                    trailing: null,
+
+                  SizedBox(height: 10),
+                  Divider(height: 1, color: Colors.grey.shade300),
+                  SizedBox(height: 10),
+                  TextButton.icon(
+                    onPressed: () {
+                      // Handle Logout Button Functionality
+                    },
+                    icon: Icon(Icons.door_back_door),
+                    label: Text('Logout'),
+                    style: TextButton.styleFrom(
+                      foregroundColor: Colors.blueGrey,
+                      iconSize: 30,
+                      textStyle: TextStyle(fontSize: 20),
+                    ),
                   ),
                 ],
               ),
@@ -156,6 +185,7 @@ class CustomSettingsListTile extends StatelessWidget {
   final Color iconBg;
   final VoidCallback? onTap;
   final Widget? trailing;
+  final Color? textColor;
 
   const CustomSettingsListTile({
     super.key,
@@ -164,13 +194,13 @@ class CustomSettingsListTile extends StatelessWidget {
     required this.iconBg,
     this.onTap,
     this.trailing,
+    this.textColor,
   });
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: Text(tileTitle),
-      contentPadding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+      title: Text(tileTitle, style: TextStyle(color: textColor)),
       leading: Container(
         padding: const EdgeInsets.all(10.0),
         decoration: BoxDecoration(
@@ -179,9 +209,8 @@ class CustomSettingsListTile extends StatelessWidget {
         ),
         child: Icon(tileIcon, color: Colors.white),
       ),
-      tileColor: Colors.grey.shade200,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-      trailing: trailing, // Only shows if not null
+      trailing: trailing,
       onTap: onTap,
     );
   }
