@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:hemophilia_manager/screens/onboarding/onboarding_page.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
@@ -32,14 +32,16 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     super.dispose();
   }
 
-  void _goToNextPage() {
+  void _goToNextPage() async {
     if (_currentPage < 5) {
       _controller.nextPage(
         duration: const Duration(milliseconds: 300),
         curve: Curves.easeIn,
       );
     } else {
-      // Replace '/yourNextPage' with your actual route
+      // Set onboarding complete flag
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setBool('onboarding_complete', true);
       Navigator.pushReplacementNamed(context, '/homepage');
     }
   }
@@ -53,36 +55,36 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             PageView(
               controller: _controller,
               children: [
-                OnboardingPage1(
+                OnboardingPanel(
                   textTitle: 'Welcome to BleedWatchPH',
                   textSubTitle:
                       'Your all-in-one solution for managing hemophilia care.',
                   imagePath: 'assets/images/Onboard_img_calculator.jpg',
                 ),
-                OnboardingPage1(
+                OnboardingPanel(
                   textTitle: 'Easy Health Tracking',
                   textSubTitle:
                       'Log bleeding episodes and medications with just a few steps',
                   imagePath: 'assets/images/Onboard_img_healthTrack.jpg',
                 ),
-                OnboardingPage1(
+                OnboardingPanel(
                   textTitle: 'Smart Dosage Calculator',
                   textSubTitle:
                       'Get Accurate clotthing factor calculations based on your weight and conditions',
                   imagePath: 'assets/images/Onboard_img_calculator.jpg',
                 ),
-                OnboardingPage1(
+                OnboardingPanel(
                   textTitle: 'Treatment Reminders',
                   textSubTitle:
                       'Never miss a dose with smart, customizable reminders.',
                   imagePath: 'assets/images/Onboard_img_reminder.jpg',
                 ),
-                OnboardingPage1(
+                OnboardingPanel(
                   textTitle: 'Locate Healthcare Providers',
                   textSubTitle: 'Find the best healthcare providers near you.',
                   imagePath: 'assets/images/Onboard_img_calculator.jpg',
                 ),
-                OnboardingPage1(
+                OnboardingPanel(
                   textTitle: 'Learn & Connect',
                   textSubTitle:
                       'Connect with others and learn more about hemophilia.',
@@ -123,7 +125,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(5),
                             ),
-                            
                           ),
                           child: Text(
                             _currentPage == 5 ? "Get Started" : "Next",
@@ -135,6 +136,54 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   ),
                 ),
               ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class OnboardingPanel extends StatelessWidget {
+  const OnboardingPanel({
+    super.key,
+    required this.textTitle,
+    required this.textSubTitle,
+    required this.imagePath,
+  });
+
+  final String textTitle;
+  final String textSubTitle;
+  final String imagePath;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: Padding(
+        padding: const EdgeInsets.all(25.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            // Image
+            Image.asset(imagePath),
+
+            SizedBox(height: 16),
+
+            // Welcome Text
+            Text(
+              textTitle,
+              style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+              textAlign: TextAlign.center,
+            ),
+
+            SizedBox(height: 16),
+
+            // Description Text
+            Text(
+              textSubTitle,
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 16, color: Colors.grey[700]),
             ),
           ],
         ),

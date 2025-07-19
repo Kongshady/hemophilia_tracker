@@ -43,7 +43,7 @@ class _ChooseRoleSelectionState extends State<ChooseRoleSelection> {
                       listSubtitle: 'I want to track my own health',
                       color: Colors.redAccent,
                       onTap: () {
-                        Navigator.pushNamed(context, '/user_fillup');
+                        Navigator.pushReplacementNamed(context, '/user_screen');
                       },
                     ),
                     SizedBox(height: 12),
@@ -63,7 +63,7 @@ class _ChooseRoleSelectionState extends State<ChooseRoleSelection> {
                       listSubtitle: 'I want to track patients who have hemophilia',
                       color: Colors.blueAccent,
                       onTap: () {
-                        Navigator.pushNamed(context, '/healthcare_main');
+                        Navigator.pushReplacementNamed(context, '/healthcare_main');
                         
                       },
                     ),

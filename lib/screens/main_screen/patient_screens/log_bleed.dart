@@ -12,6 +12,20 @@ class LogBleed extends StatefulWidget {
 class _LogBleedState extends State<LogBleed> {
   final TextEditingController _dateController = TextEditingController();
   final TextEditingController _timeController = TextEditingController();
+  int _step = 0;
+
+  final List<String> _stepTitles = [
+    'Date & Time',
+    'Body Region',
+    'Severity',
+    'Photo',
+    'Review'
+  ];
+
+  // Add controllers/fields for other steps as needed
+  String _bodyRegion = '';
+  String _severity = '';
+  // For photo, you can use File or XFile if using image_picker
 
   Future<void> _pickDate() async {
     DateTime? picked = await showDatePicker(
@@ -49,6 +63,14 @@ class _LogBleedState extends State<LogBleed> {
     _timeController.text = DateFormat('hh:mm a').format(now);
   }
 
+  void _nextStep() {
+    if (_step < 4) setState(() => _step++);
+  }
+
+  void _prevStep() {
+    if (_step > 0) setState(() => _step--);
+  }
+
   @override
   void dispose() {
     _dateController.dispose();
@@ -56,37 +78,15 @@ class _LogBleedState extends State<LogBleed> {
     super.dispose();
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        actions: [
-          TextButton(onPressed: () {
-            
-          }, child: Text('Save'))
-        ],
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(25.0),
-        child: Column(
+  Widget _buildStepContent() {
+    switch (_step) {
+      case 0:
+        return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'When did this happen?',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-                ),
-                Text(
-                  'Select the date and time of the symptom or bleed.',
-                  style: TextStyle(),
-                ),
-              ],
-            ),
-
+            Text('When did this happen?', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
+            Text('Select the date and time of the symptom or bleed.'),
             SizedBox(height: 10),
-
             Row(
               children: [
                 Expanded(
@@ -128,48 +128,209 @@ class _LogBleedState extends State<LogBleed> {
                   backgroundColor: Colors.red,
                   padding: EdgeInsets.all(15),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadiusGeometry.circular(8),
+                    borderRadius: BorderRadius.circular(8),
                   ),
                 ),
                 child: Text('Set Automatically, Happening right now.'),
               ),
             ),
-
-            SizedBox(height: 10,),
-
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Which body region?',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-                ),
-                Text(
-                  'Tap the area where the symptom or bleed occured.',
-                  style: TextStyle(),
-                ),
-              ],
-            ),
-            // Put the body model here
-            SizedBox(height: 50,),
-
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Severity',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-                ),
-                Text(
-                  'Select how serious the bleed or symptom was',
-                  style: TextStyle(),
-                ),
-              ],
-            ),
-            
           ],
+        );
+      case 1:
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('Which body region?', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
+            Text('Tap the area where the symptom or bleed occured.'),
+            SizedBox(height: 20),
+            // Replace with your body region selector widget
+            DropdownButtonFormField<String>(
+              value: _bodyRegion.isEmpty ? null : _bodyRegion,
+              items: [
+                'Head', 'Arm', 'Leg', 'Torso', 'Other'
+              ].map((region) => DropdownMenuItem(value: region, child: Text(region))).toList(),
+              onChanged: (val) => setState(() => _bodyRegion = val ?? ''),
+              decoration: InputDecoration(labelText: 'Body Region'),
+            ),
+          ],
+        );
+      case 2:
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('Severity', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
+            Text('Select how serious the bleed or symptom was'),
+            SizedBox(height: 20),
+            DropdownButtonFormField<String>(
+              value: _severity.isEmpty ? null : _severity,
+              items: [
+                'Mild', 'Moderate', 'Severe'
+              ].map((sev) => DropdownMenuItem(value: sev, child: Text(sev))).toList(),
+              onChanged: (val) => setState(() => _severity = val ?? ''),
+              decoration: InputDecoration(labelText: 'Severity'),
+            ),
+          ],
+        );
+      case 3:
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('Photo of Prescription or Bleed', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
+            Text('Upload a photo of the prescription or the affected area'),
+            SizedBox(height: 20),
+            // TODO: Add image picker widget here
+            ElevatedButton.icon(
+              onPressed: () {
+                // TODO: Implement image picker
+              },
+              icon: Icon(Icons.photo_camera),
+              label: Text('Upload Photo'),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.redAccent,
+                foregroundColor: Colors.white,
+              ),
+            ),
+          ],
+        );
+      case 4:
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('Review & Save', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
+            SizedBox(height: 10),
+            Text('Date: ${_dateController.text}'),
+            Text('Time: ${_timeController.text}'),
+            Text('Body Region: $_bodyRegion'),
+            Text('Severity: $_severity'),
+            // TODO: Show photo preview if available
+            SizedBox(height: 20),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () {
+                  // TODO: Save logic here
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.redAccent,
+                  foregroundColor: Colors.white,
+                  padding: EdgeInsets.symmetric(vertical: 16),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                ),
+                child: Text('Save', style: TextStyle(fontWeight: FontWeight.bold)),
+              ),
+            ),
+          ],
+        );
+      default:
+        return SizedBox.shrink();
+    }
+  }
+
+  Widget _buildStepper() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: List.generate(_stepTitles.length, (index) {
+        final isActive = index == _step;
+        final isCompleted = index < _step;
+        return Expanded(
+          child: Column(
+            children: [
+              CircleAvatar(
+                radius: 16,
+                backgroundColor: isActive
+                    ? Colors.redAccent
+                    : isCompleted
+                        ? Colors.green
+                        : Colors.grey.shade300,
+                child: Text(
+                  '${index + 1}',
+                  style: TextStyle(
+                    color: isActive || isCompleted ? Colors.white : Colors.black54,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              SizedBox(height: 4),
+              Text(
+                _stepTitles[index],
+                style: TextStyle(
+                  fontSize: 12,
+                  color: isActive
+                      ? Colors.redAccent
+                      : isCompleted
+                          ? Colors.green
+                          : Colors.black54,
+                  fontWeight: isActive ? FontWeight.bold : FontWeight.normal,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
+        );
+      }),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Log Bleed'),
+        centerTitle: true,
+      ),
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(25.0),
+          child: Column(
+            children: [
+              _buildStepper(),
+              SizedBox(height: 24),
+              Expanded(child: _buildStepContent()),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  if (_step > 0)
+                    SizedBox(
+                      width: 150,
+                      child: ElevatedButton(
+                        onPressed: _prevStep,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color.fromARGB(255, 255, 165, 165),
+                          foregroundColor: Colors.redAccent,
+                          padding: EdgeInsets.symmetric(vertical: 16),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                        child: Text('Back', style: TextStyle(fontWeight: FontWeight.bold)),
+                      ),
+                    ),
+                  if (_step < 4)
+                    SizedBox(
+                      width: 150,
+                      child: ElevatedButton(
+                        onPressed: _nextStep,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.redAccent,
+                          foregroundColor: Colors.white,
+                          padding: EdgeInsets.symmetric(vertical: 16),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                        child: Text('Next'),
+                      ),
+                    ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
 }
+
+// TODO: Turn each into Vertical Multi Step Form

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:hemophilia_manager/auth/auth.dart';
+import 'package:hemophilia_manager/services/firestore.dart';
 import '../../../../../main.dart'; // Import the themeNotifier
 
 class UserSettings extends StatefulWidget {
@@ -10,6 +12,46 @@ class UserSettings extends StatefulWidget {
 }
 
 class _UserSettingsState extends State<UserSettings> {
+  String? _name;
+  String? _email;
+  String? _photoUrl;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUserInfo();
+  }
+
+  Future<void> _loadUserInfo() async {
+    final user = AuthService().currentUser;
+    if (user != null) {
+      setState(() {
+        _email = user.email;
+        _photoUrl = user.photoURL;
+      });
+      // Get extra info from Firestore using the public method
+      final userData = await FirestoreService().getUser(user.uid);
+      if (userData != null) {
+        setState(() {
+          _name = userData['name'] ?? '';
+        });
+      }
+    }
+  }
+
+  void _logout() async {
+    await AuthService().signOut();
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('You have been logged out.'),
+          backgroundColor: Colors.redAccent,
+        ),
+      );
+      Navigator.pushReplacementNamed(context, '/homepage');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,29 +73,34 @@ class _UserSettingsState extends State<UserSettings> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
-                  spacing: 10,
                   children: [
-                    // Image Placeholder
+                    // User Image
                     Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(50),
                         color: Colors.grey,
                       ),
-                      padding: EdgeInsets.all(40),
+                      width: 80,
+                      height: 80,
+                      child: ClipOval(
+                        child: _photoUrl != null
+                          ? Image.network(_photoUrl!, fit: BoxFit.cover)
+                          : Icon(Icons.person, size: 48, color: Colors.white),
+                      ),
                     ),
-
-                    // Name and email Add
+                    SizedBox(width: 16),
+                    // Name and email
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Name Placeholder',
+                          _name ?? 'Loading...',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 20,
                           ),
                         ),
-                        Text('username@gmail.com'),
+                        Text(_email ?? 'Loading...'),
                       ],
                     ),
                   ],
@@ -158,9 +205,7 @@ class _UserSettingsState extends State<UserSettings> {
                   Divider(height: 1, color: Colors.grey.shade300),
                   SizedBox(height: 10),
                   TextButton.icon(
-                    onPressed: () {
-                      // Handle Logout Button Functionality
-                    },
+                    onPressed: _logout,
                     icon: Icon(Icons.door_back_door),
                     label: Text('Logout'),
                     style: TextButton.styleFrom(

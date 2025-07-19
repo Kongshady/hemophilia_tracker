@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:hemophilia_manager/auth/auth.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -9,38 +10,34 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  @override
-  void initState() {
-    super.initState();
-    // Show the dialog after the first frame is rendered
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-            return AlertDialog(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8),
-            ),
-            icon: const Icon(
-              Icons.question_mark,
-              color: Colors.redAccent,
-              size: 40,
-            ),
-            title: const Text(
-              'Not sure if you have hemophilia?',
-              style: TextStyle(fontWeight: FontWeight.w600),
-            ),
-            content: const Text(
-              'Try our quick pre-screening test it will only take a few minutes.',
-            ),
-            actions: [
-              TextButton(
+  void _showPreScreeningDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
+          ),
+          icon: const Icon(
+            Icons.question_mark,
+            color: Colors.redAccent,
+            size: 40,
+          ),
+          title: const Text(
+            'Not sure if you have hemophilia?',
+            style: TextStyle(fontWeight: FontWeight.w600),
+          ),
+          content: const Text(
+            'Try our quick pre-screening test it will only take a few minutes.',
+          ),
+          actions: [
+            TextButton(
               onPressed: () {
                 Navigator.pop(context); // Close dialog
               },
               child: const Text('I already know'),
-              ),
-              TextButton(
+            ),
+            TextButton(
               onPressed: () {
                 Navigator.pop(context); // Close dialog
                 // TODO: Navigate to screening test page
@@ -53,12 +50,11 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               child: const Text('Take me to the test'),
-              ),
-            ],
-            );
-        },
-      );
-    });
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -94,7 +90,7 @@ class _HomePageState extends State<HomePage> {
                             btnTitle: 'Login',
                             bgColor: Colors.redAccent,
                             onTap: () {
-                              Navigator.pushNamed(context, '/login');
+                              Navigator.pushReplacementNamed(context, '/login');
                             },
                           ),
                         ),
@@ -104,7 +100,7 @@ class _HomePageState extends State<HomePage> {
                             btnTitle: 'Create Account',
                             bgColor: Colors.redAccent,
                             onTap: () {
-                              Navigator.pushNamed(context, '/register');
+                              Navigator.pushReplacementNamed(context, '/register');
                             },
                           ),
                         ),
@@ -144,8 +140,10 @@ class _HomePageState extends State<HomePage> {
                       child: CustomStartingButton(
                         btnTitle: 'Continue As Guest',
                         bgColor: const Color.fromARGB(255, 41, 41, 41),
-                        onTap: () {
-                          Navigator.pushNamed(context, '/user_screen');
+                        onTap: () async {
+                          await AuthService().signInAnonymously();
+                          // ignore: use_build_context_synchronously
+                          Navigator.pushReplacementNamed(context, '/user_screen');
                         },
                       ),
                     ),
@@ -155,6 +153,13 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
         ),
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: _showPreScreeningDialog,
+        backgroundColor: Colors.lightBlue,
+        foregroundColor: Colors.white,
+        icon: Icon(FontAwesomeIcons.clipboardList),
+        label: Text('Try Pre-Screening'),
       ),
     );
   }

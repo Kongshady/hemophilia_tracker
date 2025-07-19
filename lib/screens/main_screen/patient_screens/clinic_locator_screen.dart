@@ -140,6 +140,89 @@ class _ClinicLocatorScreenState extends State<ClinicLocatorScreen> {
           ),
         ),
       ),
+      floatingActionButton: FloatingActionButton.extended(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+        label: Text('Find?'),
+        backgroundColor: Colors.green,
+        foregroundColor: Colors.white,
+        icon: Icon(FontAwesomeIcons.magnifyingGlassLocation),
+        onPressed: () {
+          showModalBottomSheet(
+            context: context,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+            ),
+            builder: (context) {
+              return Padding(
+                padding: const EdgeInsets.all(24.0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      'What are you looking for?',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                        color: Colors.redAccent,
+                      ),
+                    ),
+                    SizedBox(height: 18),
+                    ListTile(
+                      // put a background color for the icon
+                      leading: Container(
+                        padding: EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          color: Colors.redAccent,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Icon(
+                          FontAwesomeIcons.syringe,
+                          color: Colors.white,
+                        ),
+                      ),
+                      title: Text('Drug Outlet'),
+                      subtitle: Text(
+                        'Find drug outlets near you',
+                        style: TextStyle(color: Colors.black54, fontSize: 13),
+                      ),
+                      onTap: () {
+                        Navigator.pop(context);
+                        // TODO: Filter map/list for drug outlets
+                      },
+                    ),
+                    Divider(height: 1, color: Colors.black12),
+                    ListTile(
+                      leading: Container(
+                        padding: EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          color: Colors.blueAccent,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Icon(
+                          FontAwesomeIcons.hospital,
+                          color: Colors.white,
+                        ),
+                      ),
+                      title: Text('Nearby Treatment Center'),
+                      subtitle: Text(
+                        'Find treatment centers near you',
+                        style: TextStyle(color: Colors.black54, fontSize: 13),
+                      ),
+                      onTap: () {
+                        Navigator.pop(context);
+                        // TODO: Filter map/list for clinics
+                      },
+                    ),
+                  ],
+                ),
+              );
+            },
+          );
+        },
+      ),
     );
   }
 }
+
+// TODO: Implement a screen change when the user selects a clinic or drug outlet
+// Drug Outlet and Clinic Locator
