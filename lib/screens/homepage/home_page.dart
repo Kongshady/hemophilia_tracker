@@ -68,9 +68,12 @@ class _HomePageState extends State<HomePage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                // App name centered
+                Image.asset(
+                  'assets/images/app_logo.png',
+                  width: 250,
+                ),
                 Text(
-                  'BleedWatchPH',
+                  'RedSyncPH',
                   style: TextStyle(
                     fontSize: 36,
                     fontWeight: FontWeight.bold,

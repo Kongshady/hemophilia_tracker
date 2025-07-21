@@ -42,6 +42,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       // Set onboarding complete flag
       final prefs = await SharedPreferences.getInstance();
       await prefs.setBool('onboarding_complete', true);
+      if (!mounted) return; // Ensure context is still valid
       Navigator.pushReplacementNamed(context, '/homepage');
     }
   }
@@ -56,10 +57,10 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               controller: _controller,
               children: [
                 OnboardingPanel(
-                  textTitle: 'Welcome to BleedWatchPH',
+                  textTitle: 'Welcome to RedSyncPH',
                   textSubTitle:
                       'Your all-in-one solution for managing hemophilia care.',
-                  imagePath: 'assets/images/Onboard_img_calculator.jpg',
+                  imagePath: 'assets/images/app_logo.png',
                 ),
                 OnboardingPanel(
                   textTitle: 'Easy Health Tracking',

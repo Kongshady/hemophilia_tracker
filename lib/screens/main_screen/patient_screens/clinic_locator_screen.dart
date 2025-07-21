@@ -46,7 +46,7 @@ class _ClinicLocatorScreenState extends State<ClinicLocatorScreen> {
                         'Clinic Locator',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          fontSize: 24,
+                          fontSize: 28,
                           color: Colors.redAccent,
                         ),
                       ),

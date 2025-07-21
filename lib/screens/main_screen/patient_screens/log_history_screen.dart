@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'log_bleed.dart'; // adjust path if needed
 
 class LogHistoryScreen extends StatefulWidget {
   const LogHistoryScreen({super.key});
@@ -15,6 +17,8 @@ class _LogHistoryScreenState extends State<LogHistoryScreen>
   void initState() {
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
+    // Ensure Hive box is open
+    Hive.openBox<BleedLog>('bleed_logs');
   }
 
   @override
@@ -29,13 +33,15 @@ class _LogHistoryScreenState extends State<LogHistoryScreen>
       appBar: AppBar(
         title: const Text(
           'Log History',
-          style: TextStyle(fontWeight: FontWeight.w500),
+          style: TextStyle(fontWeight: FontWeight.w600),
         ),
-        centerTitle: true,
+        backgroundColor: Colors.amber,
+        foregroundColor: Colors.white,
         bottom: TabBar(
           controller: _tabController,
-          indicatorColor: Colors.redAccent,
-          labelColor: Colors.redAccent,
+          indicatorColor: Colors.white,
+          labelColor: Colors.white,
+          unselectedLabelColor: Colors.white70,
           labelStyle: const TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 16,
@@ -48,9 +54,59 @@ class _LogHistoryScreenState extends State<LogHistoryScreen>
       ),
       body: TabBarView(
         controller: _tabController,
-        children: const [
-          SampleScreen(screenTitle: 'Bleeding Episodes'),
-          SampleScreen(screenTitle: 'Infusion Taken'),
+        children: [
+          // Bleeding Episodes tab: show Hive logs
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 25.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(height: 20),
+                Text(
+                  'Bleeding Episodes',
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                ),
+                SizedBox(height: 20),
+                Expanded(
+                  child: ValueListenableBuilder(
+                    valueListenable: Hive.box<BleedLog>('bleed_logs').listenable(),
+                    builder: (context, Box<BleedLog> box, _) {
+                      if (box.isEmpty) {
+                        return Center(
+                          child: Text(
+                            'No bleeding episodes logged yet.',
+                            style: TextStyle(color: Colors.black54),
+                          ),
+                        );
+                      }
+                      return ListView.builder(
+                        itemCount: box.length,
+                        itemBuilder: (context, index) {
+                          final log = box.getAt(index);
+                          if (log == null) return SizedBox.shrink();
+                          return Card(
+                            margin: EdgeInsets.symmetric(vertical: 3),
+                            child: ListTile(
+                              leading:
+                                  Icon(Icons.bloodtype, color: Colors.redAccent),
+                              title: Text('${log.bodyRegion} (${log.severity})'),
+                              subtitle: Text('Date: ${log.date}\nTime: ${log.time}'),
+                              trailing: Icon(Icons.chevron_right),
+                              onTap: () {
+                                // Optionally show details
+                              },
+                            ),
+                          );
+                        },
+                      );
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ),
+          // Infusion Taken tab: keep placeholder
+          const SampleScreen(screenTitle: 'Infusion Taken'),
         ],
       ),
       floatingActionButton: FloatingActionButton(
@@ -136,3 +192,5 @@ class SampleScreen extends StatelessWidget {
     );
   }
 }
+
+// TODO: Logic for viewing and managing logs in bleeding episodes and infusion taken

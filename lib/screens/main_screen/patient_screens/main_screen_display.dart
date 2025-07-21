@@ -4,7 +4,7 @@ import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.da
 import 'package:hemophilia_manager/screens/main_screen/patient_screens/chatbot_screen.dart';
 import 'package:hemophilia_manager/screens/main_screen/patient_screens/clinic_locator_screen.dart';
 import 'package:hemophilia_manager/screens/main_screen/patient_screens/dashboard_screens.dart/dashboard_screen.dart';
-import 'package:hemophilia_manager/screens/main_screen/patient_screens/educational_resources.dart';
+import 'package:hemophilia_manager/screens/main_screen/patient_screens/educ_resources/educational_resources_screen.dart';
 
 class MainScreenDisplay extends StatefulWidget {
   const MainScreenDisplay({super.key});
@@ -27,7 +27,7 @@ class _MainScreenDisplayState extends State<MainScreenDisplay> {
   // LIST OF DISPLAYED SCREENS
   final List<Widget> _screens = [
     Dashboard(),
-    EducationalResources(),
+    EducationalResourcesScreen(),
     ChatbotScreen(),
     ClinicLocatorScreen(),
   ];
@@ -35,6 +35,41 @@ class _MainScreenDisplayState extends State<MainScreenDisplay> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        toolbarHeight: 70,
+        title: Image.asset('assets/images/app_logo.png', width: 60),
+        centerTitle: true,
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.redAccent,
+        actions: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: CircleAvatar(
+              // ignore: deprecated_member_use
+              backgroundColor: Colors.redAccent.withOpacity(0.15),
+              child: IconButton(
+                icon: const Icon(FontAwesomeIcons.solidBell, color: Colors.redAccent),
+                onPressed: () {
+                  Navigator.pushNamed(context, '/notifications');
+                },
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(right: 12.0),
+            child: GestureDetector(
+              onTap: () {
+                Navigator.pushNamed(context, '/settings');
+              },
+              child: CircleAvatar(
+                radius: 20,
+                backgroundImage: AssetImage('assets/avatar_placeholder.png'),
+                child: Icon(Icons.person, color: Colors.white70),
+              ),
+            ),
+          ),
+        ],
+      ),
       body: _screens[_currentIndex],
       floatingActionButton: FloatingActionButton.large(
         onPressed: () {
@@ -48,7 +83,7 @@ class _MainScreenDisplayState extends State<MainScreenDisplay> {
                 child: Padding(
                   padding: const EdgeInsets.all(15.0),
                   child: SizedBox(
-                    height: 500,
+                    height: 600,
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
@@ -66,7 +101,7 @@ class _MainScreenDisplayState extends State<MainScreenDisplay> {
                             mainAxisSpacing: 16,
                             crossAxisSpacing: 16,
                             childAspectRatio: 1.1,
-                            physics: NeverScrollableScrollPhysics(),
+                            // physics: NeverScrollableScrollPhysics(), Temporary disabled
                             children: [
                               _ActionTile(
                                 label: 'Log New Bleed',
@@ -74,6 +109,14 @@ class _MainScreenDisplayState extends State<MainScreenDisplay> {
                                 bgColor: Colors.red,
                                 onTap: () {
                                   Navigator.pushNamed(context, '/log_bleed');
+                                },
+                              ),
+                              _ActionTile(
+                                label: 'Log New Infusion',
+                                icon: FontAwesomeIcons.syringe,
+                                bgColor: Colors.purple,
+                                onTap: () {
+                                  Navigator.pushNamed(context, '/log_infusion');
                                 },
                               ),
                               _ActionTile(
@@ -106,28 +149,17 @@ class _MainScreenDisplayState extends State<MainScreenDisplay> {
                                   Navigator.pushNamed(context, '/log_history');
                                 },
                               ),
+                              _ActionTile(
+                                label: 'Add Care Provider',
+                                icon: FontAwesomeIcons.plus,
+                                bgColor: Colors.redAccent,
+                                onTap: () {
+                                  Navigator.pushNamed(context, '/care_provider');
+                                },
+                              ),
                             ],
                           ),
                         ),
-                        SizedBox(
-                          width: double.infinity,
-                          child: FilledButton.icon(
-                            onPressed: () {
-                              Navigator.pushNamed(context, '/care_provider');
-                            },
-                            icon: Icon(FontAwesomeIcons.plus),
-                            label: Text('Add Care Provider', style: TextStyle(fontWeight: FontWeight.w500),),
-                            style: FilledButton.styleFrom(
-                              backgroundColor: Colors.transparent,
-                              foregroundColor: Colors.redAccent,
-                              padding: EdgeInsets.symmetric(vertical: 16),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8),
-                                side: BorderSide(color: Colors.redAccent)
-                              ),
-                            ),
-                          ),
-                        )
                       ],
                     ),
                   ),
@@ -149,6 +181,7 @@ class _MainScreenDisplayState extends State<MainScreenDisplay> {
         height: 60,
         leftCornerRadius: 16,
         rightCornerRadius: 16,
+        backgroundColor: Colors.white,
         activeColor: Colors.redAccent,
         inactiveColor: Colors.blueGrey,
         onTap: (index) {

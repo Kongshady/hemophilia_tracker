@@ -6,6 +6,7 @@ import 'package:hemophilia_manager/screens/main_screen/patient_screens/care_user
 import 'package:hemophilia_manager/screens/main_screen/patient_screens/dosage_calculator_screen.dart';
 import 'package:hemophilia_manager/screens/main_screen/patient_screens/log_bleed.dart';
 import 'package:hemophilia_manager/screens/main_screen/patient_screens/log_history_screen.dart';
+import 'package:hemophilia_manager/screens/main_screen/patient_screens/log_infusion.dart';
 import 'package:hemophilia_manager/screens/main_screen/patient_screens/main_screen_display.dart';
 import 'package:hemophilia_manager/screens/main_screen/patient_screens/notifications_screen.dart';
 import 'package:hemophilia_manager/screens/main_screen/patient_screens/schedule_medication_screen.dart';
@@ -13,6 +14,7 @@ import 'package:hemophilia_manager/screens/main_screen/patient_screens/settings_
 import 'package:hemophilia_manager/screens/main_screen/patient_screens/settings_screens/user_info_settings.dart';
 import 'package:hemophilia_manager/screens/onboarding/onboarding_screen.dart';
 import 'package:hemophilia_manager/screens/registration/create_acc_page.dart';
+import 'package:hemophilia_manager/screens/registration/forgot_password.dart';
 import 'package:hemophilia_manager/screens/registration/login_page.dart';
 import 'package:hemophilia_manager/screens/role_selection/choose_role_selection.dart';
 import 'package:hemophilia_manager/screens/role_selection/user_creation_success.dart';
@@ -37,6 +39,8 @@ class AppRoutes {
   static const String careUserInformationScreen = '/care_user_information';
   static const String healthcareMainScreen = '/healthcare_main';
   static const String userInfoSettings = '/user_info_settings';
+  static const String logInfusion = '/log_infusion';
+  static const String forgotPassword = '/forgot_password';
 
   static Map<String, WidgetBuilder>  routes = {
       onboarding: (context) => const OnboardingScreen(),
@@ -57,6 +61,8 @@ class AppRoutes {
       careUserInformationScreen: (context) => const CareUserInformationScreen(),
       healthcareMainScreen: (context) => const HealthcareMainScreen(),
       userInfoSettings: (context) => const UserInfoSettings(),
+      logInfusion: (context) => const LogInfusionScreen(),
+      forgotPassword: (context) => const ForgotPassword(),
       // Add other routes here as needed
   };
 }

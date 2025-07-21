@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hemophilia_manager/auth/auth.dart';
 import 'package:hemophilia_manager/services/firestore.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../../main.dart'; // Import the themeNotifier
 
 class UserSettings extends StatefulWidget {
@@ -41,14 +42,80 @@ class _UserSettingsState extends State<UserSettings> {
 
   void _logout() async {
     await AuthService().signOut();
-    if (mounted) {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('isLoggedIn', false); // Clear login state
+    if (!mounted) return;
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('You have been logged out.'),
+        backgroundColor: Colors.redAccent,
+        duration: Duration(seconds: 2),
+        behavior: SnackBarBehavior.floating,
+      ),
+    );
+    Navigator.pushNamedAndRemoveUntil(context, '/homepage', (route) => false);
+  }
+
+  Future<void> _deleteAccount() async {
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(
+          'Delete Account?',
+          style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
+        ),
+        content: Text(
+          'Are you sure you want to delete your account? This action cannot be undone.',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: Text('Cancel'),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.pop(context, true),
+            style: FilledButton.styleFrom(
+              foregroundColor: Colors.white,
+              backgroundColor: Colors.red,
+            ),
+            child: Text('Delete'),
+          ),
+        ],
+      ),
+    );
+    if (confirmed != true) return;
+
+    try {
+      final user = AuthService().currentUser;
+      if (user != null) {
+        // Delete from Firestore
+        await FirestoreService().deleteUser(user.uid);
+        // Delete from Firebase Auth
+        await user.delete();
+        // Sign out and navigate to homepage
+        await AuthService().signOut();
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('Account deleted.'),
+              backgroundColor: Colors.redAccent,
+            ),
+          );
+          Navigator.pushNamedAndRemoveUntil(
+            context,
+            '/homepage',
+            (route) => false,
+          );
+        }
+      }
+    } catch (e) {
+      if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('You have been logged out.'),
+          content: Text('Failed to delete account: $e'),
           backgroundColor: Colors.redAccent,
         ),
       );
-      Navigator.pushReplacementNamed(context, '/homepage');
     }
   }
 
@@ -63,7 +130,7 @@ class _UserSettingsState extends State<UserSettings> {
         centerTitle: true,
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 15),
+        padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -84,8 +151,8 @@ class _UserSettingsState extends State<UserSettings> {
                       height: 80,
                       child: ClipOval(
                         child: _photoUrl != null
-                          ? Image.network(_photoUrl!, fit: BoxFit.cover)
-                          : Icon(Icons.person, size: 48, color: Colors.white),
+                            ? Image.network(_photoUrl!, fit: BoxFit.cover)
+                            : Icon(Icons.person, size: 48, color: Colors.white),
                       ),
                     ),
                     SizedBox(width: 16),
@@ -106,24 +173,30 @@ class _UserSettingsState extends State<UserSettings> {
                   ],
                 ),
 
-                SizedBox(height: 5),
+                SizedBox(height: 10),
 
-                FilledButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/user_info_settings');
-                  },
-                  style: FilledButton.styleFrom(
-                    backgroundColor: Colors.blue,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
+                SizedBox(
+                  width: double.infinity,
+                  child: FilledButton.icon(
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/user_info_settings');
+                    },
+                    style: FilledButton.styleFrom(
+                      minimumSize: Size(double.infinity, 50),
+                      backgroundColor: Colors.blue,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                        
+                      ),
                     ),
+                    icon: Icon(Icons.edit, size: 20,),
+                    label: Text('Edit Personal Information'),
                   ),
-                  child: Text('Edit Personal Information'),
                 ),
               ],
             ),
 
-            SizedBox(height: 20),
+            SizedBox(height: 10),
 
             Expanded(
               child: ListView(
@@ -131,21 +204,21 @@ class _UserSettingsState extends State<UserSettings> {
                   CustomSettingsListTile(
                     tileTitle: 'Language',
                     tileIcon: FontAwesomeIcons.language,
-                    iconBg: Colors.grey,
+                    iconBg: Colors.grey.shade400,
                     onTap: () {},
                     trailing: null,
                   ),
                   CustomSettingsListTile(
                     tileTitle: 'Password',
                     tileIcon: FontAwesomeIcons.lock,
-                    iconBg: Colors.grey,
+                    iconBg: Colors.grey.shade400,
                     onTap: () {},
                     trailing: null,
                   ),
                   CustomSettingsListTile(
                     tileTitle: 'Notification and Sounds',
                     tileIcon: FontAwesomeIcons.bell,
-                    iconBg: Colors.grey,
+                    iconBg: Colors.grey.shade400,
                     onTap: () {},
                     trailing: null,
                   ),
@@ -154,11 +227,11 @@ class _UserSettingsState extends State<UserSettings> {
                   SizedBox(height: 10),
                   CustomSettingsListTile(
                     tileTitle: 'Dark Mode',
-                    tileIcon: FontAwesomeIcons.paintRoller,
-                    iconBg: Colors.grey,
+                    tileIcon: FontAwesomeIcons.solidMoon,
+                    iconBg: Colors.grey.shade400,
                     trailing: Switch(
                       activeColor: Colors.green,
-                      trackOutlineColor: WidgetStateProperty.all(Colors.grey),
+                      trackOutlineColor: WidgetStateProperty.all(Colors.grey.shade400),
                       value: themeNotifier.value == ThemeMode.dark,
                       onChanged: (value) {
                         themeNotifier.value = value
@@ -170,24 +243,24 @@ class _UserSettingsState extends State<UserSettings> {
 
                   CustomSettingsListTile(
                     tileTitle: 'About Us',
-                    tileIcon: FontAwesomeIcons.info,
-                    iconBg: Colors.grey,
+                    tileIcon: FontAwesomeIcons.circleInfo,
+                    iconBg: Colors.grey.shade400,
                     onTap: () {},
                     trailing: null,
                   ),
 
                   CustomSettingsListTile(
                     tileTitle: 'Clear cache',
-                    tileIcon: FontAwesomeIcons.brush,
-                    iconBg: Colors.grey,
+                    tileIcon: FontAwesomeIcons.broom,
+                    iconBg: Colors.grey.shade400,
                     onTap: () {},
                     trailing: null,
                   ),
 
                   CustomSettingsListTile(
                     tileTitle: 'Terms and Privacy Policy',
-                    tileIcon: FontAwesomeIcons.info,
-                    iconBg: Colors.grey,
+                    tileIcon: FontAwesomeIcons.fileContract,
+                    iconBg: Colors.grey.shade400,
                     onTap: () {},
                     trailing: null,
                   ),
@@ -197,7 +270,7 @@ class _UserSettingsState extends State<UserSettings> {
                     tileIcon: FontAwesomeIcons.trashCan,
                     textColor: Colors.red,
                     iconBg: Colors.red,
-                    onTap: () {},
+                    onTap: _deleteAccount,
                     trailing: null,
                   ),
 

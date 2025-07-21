@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class EducationalResources extends StatefulWidget {
-  const EducationalResources({super.key});
+class EducationalResourcesScreen extends StatefulWidget {
+  const EducationalResourcesScreen({super.key});
 
   @override
-  State<EducationalResources> createState() => _EducationalResourcesState();
+  State<EducationalResourcesScreen> createState() => _EducationalResourcesScreenState();
 }
 
-class _EducationalResourcesState extends State<EducationalResources> {
+class _EducationalResourcesScreenState extends State<EducationalResourcesScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,9 +23,9 @@ class _EducationalResourcesState extends State<EducationalResources> {
                 children: [
                   Text(
                     'Educational Resources',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24, color: Colors.redAccent),
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 28, color: Colors.redAccent),
                   ),
-                  Text('Free Resources'),
+                  Text('Free Online/Offline Resources'),
                 ],
               ),
 
@@ -38,31 +38,55 @@ class _EducationalResourcesState extends State<EducationalResources> {
                   children: [
                     ActionList(
                       listTitle: 'Understanding Hemophilia',
-                      listIcon: FontAwesomeIcons.book,
+                      listIcon: FontAwesomeIcons.dna,
+                      listIconColor: Colors.deepPurple,
+                      listSubtitle: '5 Topics',
+                      onTap: () {},
+                    ),
+                    SizedBox(height: 10),
+                    ActionList(
+                      listTitle: 'Treatment & Management',
+                      listIcon: FontAwesomeIcons.syringe,
                       listIconColor: Colors.green,
-                      listSubtitle: '12 Topics',
+                      listSubtitle: '7 Topics',
                       onTap: () {},
                     ),
                     SizedBox(height: 10),
                     ActionList(
-                      listTitle: 'Treatment Options',
-                      listIcon: FontAwesomeIcons.pills,
-                      listIconColor: Colors.redAccent,
-                      listSubtitle: '8 Topics',
-                      onTap: () {},
-                    ),
-                    SizedBox(height: 10),
-                    ActionList(
-                      listTitle: 'Living with Hemophilia',
-                      listIcon: FontAwesomeIcons.weightScale,
+                      listTitle: 'Self-Care & Monitoring',
+                      listIcon: FontAwesomeIcons.notesMedical,
                       listIconColor: Colors.blueAccent,
                       listSubtitle: '15 Topics',
                       onTap: () {},
                     ),
                     SizedBox(height: 10),
                     ActionList(
-                      listTitle: 'Family and Caregivers',
-                      listIcon: FontAwesomeIcons.peopleGroup,
+                      listTitle: 'Common Complications',
+                      listIcon: FontAwesomeIcons.triangleExclamation,
+                      listIconColor: Colors.redAccent,
+                      listSubtitle: '10 Topics',
+                      onTap: () {},
+                    ),
+                    SizedBox(height: 10),
+                    ActionList(
+                      listTitle: 'For Parents and Caregivers',
+                      listIcon: FontAwesomeIcons.users,
+                      listIconColor: Colors.orangeAccent,
+                      listSubtitle: '10 Topics',
+                      onTap: () {},
+                    ),
+                    SizedBox(height: 10),
+                    ActionList(
+                      listTitle: 'Emergency Instructions',
+                      listIcon: FontAwesomeIcons.truckMedical,
+                      listIconColor: Colors.pinkAccent,
+                      listSubtitle: '10 Topics',
+                      onTap: () {},
+                    ),
+                    SizedBox(height: 10),
+                    ActionList(
+                      listTitle: 'Learning Material for all Ages',
+                      listIcon: FontAwesomeIcons.bookOpenReader,
                       listIconColor: Colors.yellow,
                       listSubtitle: '10 Topics',
                       onTap: () {},

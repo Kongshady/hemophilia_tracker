@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:hemophilia_manager/auth/auth.dart';
+import 'package:hemophilia_manager/routes/routes.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -20,16 +21,23 @@ class _LoginPageState extends State<LoginPage> {
     setState(() => _isLoading = true);
     try {
       final user = await AuthService().signIn(
-          _emailController.text.trim(), _passwordController.text);
+        _emailController.text.trim(),
+        _passwordController.text,
+      );
       if (user != null) {
-        Navigator.pushNamed(context, '/user_screen');
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.setBool('isLoggedIn', true);
+        if (!mounted) return; // <-- Fix context issue
+        Navigator.pushReplacementNamed(context, '/user_screen');
       } else {
+        if (!mounted) return; // <-- Fix context issue
         _showError('Login failed');
       }
     } catch (e) {
+      if (!mounted) return; // <-- Fix context issue
       _showError(e.toString());
     }
-    setState(() => _isLoading = false);
+    if (mounted) setState(() => _isLoading = false); // <-- Fix context issue
   }
 
   void _showError(String message) {
@@ -40,7 +48,9 @@ class _LoginPageState extends State<LoginPage> {
         content: Text(message),
         actions: [
           TextButton(
-              onPressed: () => Navigator.pop(context), child: Text('OK')),
+            onPressed: () => Navigator.pop(context),
+            child: Text('OK'),
+          ),
         ],
       ),
     );
@@ -62,7 +72,7 @@ class _LoginPageState extends State<LoginPage> {
                   // Minimalist app name
                   Center(
                     child: Text(
-                      'BleedWatch',
+                      'RedSyncPH',
                       style: TextStyle(
                         fontSize: 32,
                         fontWeight: FontWeight.bold,
@@ -85,8 +95,10 @@ class _LoginPageState extends State<LoginPage> {
                   TextFormField(
                     controller: _emailController,
                     decoration: InputDecoration(
-                      prefixIcon:
-                          Icon(Icons.email_outlined, color: Colors.redAccent),
+                      prefixIcon: Icon(
+                        Icons.email_outlined,
+                        color: Colors.redAccent,
+                      ),
                       labelText: 'Email',
                       border: UnderlineInputBorder(),
                     ),
@@ -103,8 +115,10 @@ class _LoginPageState extends State<LoginPage> {
                     controller: _passwordController,
                     obscureText: true,
                     decoration: InputDecoration(
-                      prefixIcon:
-                          Icon(Icons.lock_outline, color: Colors.redAccent),
+                      prefixIcon: Icon(
+                        Icons.lock_outline,
+                        color: Colors.redAccent,
+                      ),
                       labelText: 'Password',
                       border: UnderlineInputBorder(),
                     ),
@@ -119,7 +133,6 @@ class _LoginPageState extends State<LoginPage> {
                   Align(
                     alignment: Alignment.centerRight,
                     child: TextButton(
-                      onPressed: () {},
                       style: TextButton.styleFrom(
                         foregroundColor: Colors.blue,
                         padding: EdgeInsets.zero,
@@ -128,6 +141,9 @@ class _LoginPageState extends State<LoginPage> {
                         'Forgot Password?',
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
+                      onPressed: () {
+                        Navigator.pushNamed(context, AppRoutes.forgotPassword);
+                      },
                     ),
                   ),
                   SizedBox(height: 18),
@@ -147,72 +163,22 @@ class _LoginPageState extends State<LoginPage> {
                           : Text(
                               'Login',
                               style: TextStyle(
-                                  fontWeight: FontWeight.w600, fontSize: 16),
+                                fontWeight: FontWeight.w600,
+                                fontSize: 16,
+                              ),
                             ),
                     ),
                   ),
-                  SizedBox(height: 22),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Divider(
-                          color: Colors.grey.shade300,
-                          thickness: 1.0,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                        child: Text('or',
-                            style: TextStyle(color: Colors.black54)),
-                      ),
-                      Expanded(
-                        child: Divider(
-                          color: Colors.grey.shade300,
-                          thickness: 1.0,
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 18),
+                  SizedBox(height: 15),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
+                    spacing: 5,
                     children: [
-                      IconButton(
-                        icon: Icon(FontAwesomeIcons.google,
-                            color: Colors.redAccent, size: 28),
-                        onPressed: () {
-                          // Google sign-in
-                        },
-                        tooltip: 'Sign in with Google',
+                      Text(
+                        'Don\'t have an account?',
+                        style: TextStyle(color: Colors.black87),
                       ),
-                      SizedBox(width: 18),
-                      IconButton(
-                        icon: Icon(FontAwesomeIcons.facebookF,
-                            color: Colors.blueAccent, size: 28),
-                        onPressed: () {
-                          // Facebook sign-in
-                        },
-                        tooltip: 'Sign in with Facebook',
-                      ),
-                      SizedBox(width: 18),
-                      IconButton(
-                        icon: Icon(FontAwesomeIcons.apple,
-                            color: Colors.black, size: 28),
-                        onPressed: () {
-                          // Apple sign-in
-                        },
-                        tooltip: 'Sign in with Apple',
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 32),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text('Don\'t have an account?',
-                          style: TextStyle(color: Colors.black87)),
                       TextButton(
-                        onPressed: () {},
                         style: TextButton.styleFrom(
                           foregroundColor: Colors.blue,
                           padding: EdgeInsets.zero,
@@ -221,6 +187,9 @@ class _LoginPageState extends State<LoginPage> {
                           'Register now',
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
+                        onPressed: () {
+                          Navigator.pushReplacementNamed(context, '/register');
+                        },
                       ),
                     ],
                   ),

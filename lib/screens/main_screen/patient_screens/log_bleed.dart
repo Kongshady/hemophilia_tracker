@@ -1,6 +1,31 @@
 // ...existing imports...
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:hive/hive.dart';
+import 'package:path_provider/path_provider.dart';
+
+part '../../../models/log_bleed.g.dart';
+
+@HiveType(typeId: 0)
+class BleedLog extends HiveObject {
+  @HiveField(0)
+  String date;
+  @HiveField(1)
+  String time;
+  @HiveField(2)
+  String bodyRegion;
+  @HiveField(3)
+  String severity;
+  // Add photo field if needed
+
+  BleedLog({
+    required this.date,
+    required this.time,
+    required this.bodyRegion,
+    required this.severity,
+    // photo
+  });
+}
 
 class LogBleed extends StatefulWidget {
   const LogBleed({super.key});
@@ -78,6 +103,33 @@ class _LogBleedState extends State<LogBleed> {
     super.dispose();
   }
 
+  @override
+  void initState() {
+    super.initState();
+    _initHive();
+  }
+
+  Future<void> _initHive() async {
+    final dir = await getApplicationDocumentsDirectory();
+    Hive.init(dir.path);
+    if (!Hive.isAdapterRegistered(0)) {
+      Hive.registerAdapter(BleedLogAdapter());
+    }
+    await Hive.openBox<BleedLog>('bleed_logs');
+  }
+
+  Future<void> _saveLog() async {
+    final box = Hive.box<BleedLog>('bleed_logs');
+    final log = BleedLog(
+      date: _dateController.text,
+      time: _timeController.text,
+      bodyRegion: _bodyRegion,
+      severity: _severity,
+      // photo
+    );
+    await box.add(log);
+  }
+
   Widget _buildStepContent() {
     switch (_step) {
       case 0:
@@ -125,7 +177,7 @@ class _LogBleedState extends State<LogBleed> {
                 onPressed: _setNow,
                 style: ElevatedButton.styleFrom(
                   foregroundColor: Colors.white,
-                  backgroundColor: Colors.red,
+                  backgroundColor: Colors.redAccent,
                   padding: EdgeInsets.all(15),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8),
@@ -207,8 +259,10 @@ class _LogBleedState extends State<LogBleed> {
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                onPressed: () {
-                  // TODO: Save logic here
+                onPressed: () async {
+                  await _saveLog();
+                  if (!mounted) return;
+                  Navigator.pushReplacementNamed(context, '/user_screen');
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.redAccent,
@@ -277,8 +331,9 @@ class _LogBleedState extends State<LogBleed> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Log Bleed'),
-        centerTitle: true,
+        title: Text('Log Bleed', style: TextStyle(fontWeight: FontWeight.w600),),
+        backgroundColor: Colors.redAccent,
+        foregroundColor: Colors.white,
       ),
       body: SafeArea(
         child: Padding(
